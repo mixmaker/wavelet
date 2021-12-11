@@ -8,7 +8,12 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
+    .arrow{
+        // padding-right: 1rem;
+        // color: white;
+    }
     img{
+        margin-left: 1rem;
         width: 80px;
     }
     .songDetail{
@@ -18,6 +23,9 @@
 
         .text{
             padding-left: 1rem;
+            .artist{
+                color: rgb(201, 201, 201);
+            }
         }
     }
     .time-control{

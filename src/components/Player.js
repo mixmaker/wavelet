@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
   faPause,
+  faChevronUp,
   faAngleLeft,
   faAngleRight,
 } from "@fortawesome/free-solid-svg-icons";
@@ -13,19 +14,19 @@ export default function Player({ currentSong, isPlaying, setisPlaying }) {
   const playpauseHandler = () => {
     if (isPlaying) {
       audioRef.current.pause();
-      setisPlaying(!isPlaying)
+      setisPlaying(!isPlaying);
     } else {
       audioRef.current.play();
-      setisPlaying(!isPlaying)
+      setisPlaying(!isPlaying);
     }
   };
 
   //states
 
-
   return (
     <div className="player">
       <div className="songDetail">
+      <FontAwesomeIcon className="arrow" icon={faChevronUp} />
         <img src={currentSong.image} alt="Songimg" />
         <div className="text">
           <h2>{currentSong.song}</h2>
@@ -39,14 +40,14 @@ export default function Player({ currentSong, isPlaying, setisPlaying }) {
       </div>
       <div className="play-control">
         <FontAwesomeIcon className="skip-back" icon={faAngleLeft} />
-        <FontAwesomeIcon className="play" onClick={playpauseHandler} icon={isPlaying?faPause :faPlay} />
+        <FontAwesomeIcon
+          className="play"
+          onClick={playpauseHandler}
+          icon={isPlaying ? faPause : faPlay}
+        />
         <FontAwesomeIcon className="skip-forward" icon={faAngleRight} />
       </div>
-        <audio
-          ref={audioRef}
-          src={currentSong.media_url}
-          autoPlay
-        ></audio>
+      <audio ref={audioRef} src={currentSong.media_url} autoPlay></audio>
     </div>
   );
 }

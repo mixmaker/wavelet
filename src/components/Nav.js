@@ -33,6 +33,7 @@ export default function Nav({
           id="searchBar"
           placeholder="Search Songs Here"
           onChange={getInput}
+          onKeyDown={e => e.key === 'Enter' && songInput()}
         />
         <div className="icon">
           <FontAwesomeIcon icon={faSearch} onClick={songInput} />

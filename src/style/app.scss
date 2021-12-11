@@ -1,0 +1,17 @@
+*{
+    margin: 0;
+    padding: 0;
+    // background-color: black;
+    box-sizing: border-box
+}
+@import './songlist';
+@import './player';
+@import './nav';
+h1,h2,h3{
+    // color:rgb(209, 209, 209);
+}
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

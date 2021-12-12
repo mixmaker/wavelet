@@ -22,14 +22,20 @@ function App() {
         searchedData.map((element) => {
           return (
             <Songlist
-            setisPlaying={setisPlaying}
+              setisPlaying={setisPlaying}
               setCurrentSong={setCurrentSong}
               element={element}
               key={element.id}
             />
           );
         })}
-      {currentSong && <Player isPlaying={isPlaying} setisPlaying={setisPlaying} currentSong={currentSong} />}
+      {currentSong && (
+        <Player
+          isPlaying={isPlaying}
+          setisPlaying={setisPlaying}
+          currentSong={currentSong}
+        />
+      )}
     </div>
   );
 }

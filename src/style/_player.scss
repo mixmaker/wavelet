@@ -8,21 +8,49 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    .arrow{
-        // padding-right: 1rem;
-        // color: white;
-    }
+    
+
+    //expanded
+
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: space-around;
+    // align-items: center;
+    // position: absolute;
+    // top: 0;
+    // left: 0;
+    // height: 100vh;
+    // width: 100%;
+    // background-color: springgreen;
+ 
     img{
         margin-left: 1rem;
         width: 80px;
+
+            //expanded
+
+        // margin: 2rem 0;
+        // width: 400px;
     }
     .songDetail{
         color: #fff;
         display: flex;
         align-items: center;
+        width: 20%;
 
+
+            //expanded
+
+        // display: flex;
+        // flex-direction: column;
+        // justify-content: center;
+        // align-items: center;
         .text{
             padding-left: 1rem;
+
+                //expanded
+
+            // text-align: center;
             .artist{
                 color: rgb(201, 201, 201);
             }
@@ -30,16 +58,28 @@
     }
     .time-control{
         color: white;
+        width: 400px;
+            //expanded
+
         display: flex;
+        // width: 50%;
 
         p{
             padding: 0 1rem;
+            width: 50px;
+        }
+        input{
+            width: 100%;
         }
     }
     .play-control{
         color: white;
         display: flex;
-        width: 10%;
         justify-content: space-around;
+        font-size: 1.5rem;
+        width: 300px;
+            //expanded
+
+        // width: 40%;
     }
 }

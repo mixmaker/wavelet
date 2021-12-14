@@ -7,7 +7,11 @@ import {
   faAngleLeft,
   faAngleRight,
 } from "@fortawesome/free-solid-svg-icons";
-export default function Player({ currentSong, isPlaying, setisPlaying }) {
+export default function Player({
+  currentSong,
+  isPlaying,
+  setisPlaying,
+}) {
   //refs
   const audioRef = useRef(null);
   //event handlers
@@ -26,7 +30,7 @@ export default function Player({ currentSong, isPlaying, setisPlaying }) {
     const duration = e.target.duration;
     setSongInfo({ ...songInfo, currentTime: current, duration });
     if (current === duration) {
-      setisPlaying(false)
+      setisPlaying(false);
     }
     // console.log(e)
     // console.log(duration)
@@ -36,15 +40,15 @@ export default function Player({ currentSong, isPlaying, setisPlaying }) {
       Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2)
     );
   };
-  const dragHandler = (e)=>{
+  const dragHandler = (e) => {
     audioRef.current.currentTime = e.target.value;
-    setSongInfo({...songInfo, currentTime: e.target.value})
-  }
+    setSongInfo({ ...songInfo, currentTime: e.target.value });
+  };
 
   //states
   const [songInfo, setSongInfo] = useState({
-    currentTime: null,
-    duration: null,
+    currentTime: "0:00",
+    duration: "0:00",
   });
   return (
     <div className="player">
@@ -58,7 +62,13 @@ export default function Player({ currentSong, isPlaying, setisPlaying }) {
       </div>
       <div className="time-control">
         <p>{timeFormatter(songInfo.currentTime)}</p>
-        <input min={0} max={songInfo.duration} value={songInfo.currentTime} onChange={dragHandler} type="range" />
+        <input
+          min={0}
+          max={songInfo.duration}
+          value={songInfo.currentTime}
+          onChange={dragHandler}
+          type="range"
+        />
         <p>{timeFormatter(songInfo.duration)}</p>
       </div>
       <div className="play-control">
@@ -66,7 +76,7 @@ export default function Player({ currentSong, isPlaying, setisPlaying }) {
         <FontAwesomeIcon
           className="play"
           onClick={playpauseHandler}
-          icon={isPlaying ? faPause : faPlay }
+          icon={isPlaying ? faPause : faPlay}
         />
         <FontAwesomeIcon className="skip-forward" icon={faAngleRight} />
       </div>

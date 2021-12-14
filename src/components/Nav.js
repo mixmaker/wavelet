@@ -9,6 +9,7 @@ export default function Nav({
   inputVar,
   setInputVar,
   setSearchedData,
+  setProgress
 }) {
   const getInput = (e) => {
     setInputVar(e.target.value);
@@ -16,9 +17,12 @@ export default function Nav({
   const songInput = async() => {
     // setSongName(inputVar);
     // console.log(songName)
+    setProgress(10)
     let data = await searchSong(inputVar)
+    setProgress(60)
     // console.log(data)
     setSearchedData(data);
+    setProgress(100)
   };
 
   return (

@@ -4,16 +4,27 @@ import Nav from "./components/Nav";
 import Songlist from "./components/Songlist";
 import nayan from "./images/Nayan.mp3";
 import "./style/app.scss";
+import LoadingBar from "react-top-loading-bar";
 function App() {
   //States
   const [inputVar, setInputVar] = useState(); //get user input
   const [searchedData, setSearchedData] = useState(); //data of searched item
   const [currentSong, setCurrentSong] = useState(); //get details of song
   const [isPlaying, setisPlaying] = useState(false); //check if playing or not
+  const [progress, setProgress] = useState(0);
+  const [playing, setPlaying] = useState(0);
 
   return (
     <div className="App">
+      <LoadingBar
+        color="#30E3CA"
+        height={3}
+        loaderSpeed={800}
+        progress={progress}
+        onLoaderFinished={() => setProgress(0)}
+      />
       <Nav
+        setProgress={setProgress}
         inputVar={inputVar}
         setInputVar={setInputVar}
         setSearchedData={setSearchedData}
@@ -22,6 +33,7 @@ function App() {
         searchedData.map((element) => {
           return (
             <Songlist
+              setProgress={setProgress}
               setisPlaying={setisPlaying}
               setCurrentSong={setCurrentSong}
               element={element}

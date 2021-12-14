@@ -4,19 +4,20 @@ import axios from "axios";
 
 export default function Songlist({
   element,
-  songId,
-  setSongId,
   setCurrentSong,
-  setisPlaying
+  setisPlaying,
+  setProgress,
 }) {
-  
-  const getAudioHandler = (e)=>{
-    getAudio(e.target.id).then(data => {
-      data && console.log(data.data);
+  const getAudioHandler = (e) => {
+    setProgress(10);
+    getAudio(e.target.id).then((data) => {
+      setProgress(60);
+      // data && console.log(data.data);
       data && setCurrentSong(data.data);
-      data && setisPlaying(true)
-  })
-  }
+      data && setisPlaying(true);
+      setProgress(100);
+    });
+  };
   return (
     <div className="songlist" id={`${element.id}`} onClick={getAudioHandler}>
       <img src={element.image} alt="" />

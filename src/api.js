@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const searchSong = (songName) => {
   return axios
-    .get(`https://jiosaavnapi-sk.vercel.app/search?query=${songName}`)
+    .get(`${process.env.REACT_APP_URL}/search?query=${songName}`)
     .then((data) => {
       // console.log(data)
       return data.data.results;
@@ -19,5 +19,5 @@ export const searchSong = (songName) => {
 // }
 
 export const getAudio = async (id) => {
-  return axios.get(`http://jiosaavnapi-sk.vercel.app/song?id=${id}`);
+  return axios.get(`${process.env.REACT_APP_URL}/song?id=${id}`);
 };

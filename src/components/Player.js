@@ -7,11 +7,10 @@ import {
   faAngleLeft,
   faAngleRight,
 } from "@fortawesome/free-solid-svg-icons";
-export default function Player({
-  currentSong,
-  isPlaying,
-  setisPlaying,
-}) {
+import { motion } from "framer-motion";
+import styled from "styled-components";
+
+export default function Player({ currentSong, isPlaying, setisPlaying }) {
   //refs
   const audioRef = useRef(null);
   //event handlers
@@ -51,12 +50,21 @@ export default function Player({
     duration: "0:00",
   });
   return (
-    <div className="player">
+    <StyledPlayer
+      initial={{
+        y: 100,
+      }}
+      animate={{
+        y: 0,
+        transition: {
+          duration: 0.5,
+        },
+      }}
+    >
       <div className="songDetail">
-        <FontAwesomeIcon className="arrow" icon={faChevronUp} />
-        <img src={currentSong.image} alt="Songimg" />
+        <motion.img src={currentSong.image} alt="Songimg" />
         <div className="text">
-          <h2>{currentSong.song}</h2>
+          <motion.h2>{currentSong.song}</motion.h2>
           <h3 className="artist">{currentSong.singers}</h3>
         </div>
       </div>
@@ -64,7 +72,7 @@ export default function Player({
         <p>{timeFormatter(songInfo.currentTime)}</p>
         <input
           min={0}
-          max={songInfo.duration}
+          max={songInfo.duration || 0}
           value={songInfo.currentTime}
           onChange={dragHandler}
           type="range"
@@ -87,6 +95,55 @@ export default function Player({
         autoPlay
         onTimeUpdate={timeUpdateHandler}
       ></audio>
-    </div>
+    </StyledPlayer>
   );
 }
+
+const StyledPlayer = styled(motion.div)`
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 5rem;
+  background: #292727;
+  color: white;
+  width: 100%;
+  .songDetail {
+    display: flex;
+    /* padding: 0 5rem; */
+    /* justify-content: space-evenly; */
+    align-items: center;
+
+    width: 40%;
+
+    img {
+      height: 70px;
+    }
+    .text {
+      padding: 0 2rem;
+    }
+  }
+  .time-control {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 40%;
+    p {
+      padding: 0 1rem;
+    }
+    input {
+      width: 100%;
+    }
+  }
+  .play-control {
+    width: 30%;
+    align-items: center;
+    display: flex;
+    justify-content: space-around;
+    font-size: 1.5rem;
+
+    .play {
+      cursor: pointer;
+    }
+  }
+`;

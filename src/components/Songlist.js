@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { getAudio } from "../api";
-import axios from "axios";
+import { motion } from "framer-motion";
+import styled from "styled-components";
 
 export default function Songlist({
   element,
@@ -19,17 +20,50 @@ export default function Songlist({
     });
   };
   return (
-    <div className="songlist" id={`${element.id}`} onClick={getAudioHandler}>
-      <img src={element.image} alt="" />
-      <div className="info">
-        <h2>{element.title}</h2>
-        <h3>{element.more_info.singers}</h3>
-      </div>
-    </div>
+    <SongList id={`${element.id}`} onClick={getAudioHandler}>
+      <motion.div
+        className="overlay"
+        initial={{ y: 100 }}
+        animate={{
+          y: 0,
+          transition: {
+            duration: 0.5,
+          },
+        }}
+      >
+        <motion.img src={element.image} alt="" />
+        <div className="info">
+          <motion.h2>{element.title}</motion.h2>
+          <h3>{element.more_info.singers}</h3>
+        </div>
+      </motion.div>
+    </SongList>
   );
 }
-// await setSongId(e.target.id)
-// console.log(songId)
-// let du = await getAudio(e.target.id)
-// du && console.log(du)
-// du && setCurrentSong(du)
+
+const SongList = styled(motion.div)`
+  position: relative;
+  padding: 2rem 5rem;
+  cursor: pointer;
+  display: flex;
+  overflow-y: hidden;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #ccfff8;
+  }
+  .overlay{
+    display: flex;
+  }
+    img {
+      position: relative;
+      height: 90px;
+      margin-right: 1rem;
+    }
+
+    .info {
+      background: transparent;
+    }
+
+  }
+`;

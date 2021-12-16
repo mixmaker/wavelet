@@ -12,6 +12,13 @@ function App() {
   const [isPlaying, setisPlaying] = useState(false); //check if playing or not
   const [progress, setProgress] = useState(0);
 
+  //decode encoded HTML
+  var decodeHTML = function (html) {
+    var txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+  };
+
   return (
     <div className="App">
       <LoadingBar
@@ -27,25 +34,27 @@ function App() {
         setInputVar={setInputVar}
         setSearchedData={setSearchedData}
       />
-        {searchedData &&
-          searchedData.map((element) => {
-            return (
-              <Songlist
-                setProgress={setProgress}
-                setisPlaying={setisPlaying}
-                setCurrentSong={setCurrentSong}
-                element={element}
-                key={element.id}
-              />
-            );
-          })}
-          {currentSong && (
-            <Player 
-              isPlaying={isPlaying}
+      {searchedData &&
+        searchedData.map((element) => {
+          return (
+            <Songlist
+              decodeHTML={decodeHTML}
+              setProgress={setProgress}
               setisPlaying={setisPlaying}
-              currentSong={currentSong}
+              setCurrentSong={setCurrentSong}
+              element={element}
+              key={element.id}
             />
-          )}
+          );
+        })}
+      {currentSong && (
+        <Player
+          decodeHTML={decodeHTML}
+          isPlaying={isPlaying}
+          setisPlaying={setisPlaying}
+          currentSong={currentSong}
+        />
+      )}
     </div>
   );
 }

@@ -10,7 +10,12 @@ import {
 import { motion } from "framer-motion";
 import styled from "styled-components";
 
-export default function Player({ currentSong, isPlaying, setisPlaying }) {
+export default function Player({
+  decodeHTML,
+  currentSong,
+  isPlaying,
+  setisPlaying,
+}) {
   //refs
   const audioRef = useRef(null);
   //event handlers
@@ -77,8 +82,8 @@ export default function Player({ currentSong, isPlaying, setisPlaying }) {
       <div className="songDetail">
         <img src={currentSong.image} alt="Songimg" />
         <div className="text">
-          <h2>{currentSong.song}</h2>
-          <h3>{currentSong.singers}</h3>
+          <h2>{decodeHTML(currentSong.song)}</h2>
+          <h3>{decodeHTML(currentSong.singers)}</h3>
         </div>
       </div>
       <div className="time-control">
@@ -171,12 +176,12 @@ const StyledPlayer = styled(motion.div)`
       }
       input[type="range"]::-webkit-slider-thumb {
         -webkit-appearance: none;
-        height: .75rem;
-        width: .75rem;
-        cursor:pointer;
+        height: 0.75rem;
+        width: 0.75rem;
+        cursor: pointer;
       }
       .animate-track {
-        background: rgb(204, 204, 204);
+        background: rgb(107, 107, 107);
         width: 100%;
         height: 100%;
         position: absolute;

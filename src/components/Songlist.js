@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 export default function Songlist({
   element,
+  decodeHTML,
   setCurrentSong,
   setisPlaying,
   setProgress,
@@ -31,10 +32,10 @@ export default function Songlist({
           },
         }}
       >
-        <motion.img src={element.image} alt="" />
+        <img src={element.image} alt="" />
         <div className="info">
-          <motion.h2>{element.title}</motion.h2>
-          <h3>{element.more_info.singers}</h3>
+          <h2>{decodeHTML(element.title)}</h2>
+          <h3>{decodeHTML(element.more_info.singers)}</h3>
         </div>
       </motion.div>
     </SongList>

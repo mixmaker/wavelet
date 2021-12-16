@@ -13,11 +13,13 @@ export default function Songlist({
   setProgress,
 }) {
 const selectedStyle =()=> {
-  if (element.id == currentSong.id) {
+  if(currentSong){
+   if (element.id == currentSong.id) {
     return {
       backgroundColor: "#80ffee",
     }
   }
+}
 }
 
   const getAudioHandler = (e) => {

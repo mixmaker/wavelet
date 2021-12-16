@@ -41,6 +41,7 @@ function App() {
               decodeHTML={decodeHTML}
               setProgress={setProgress}
               setisPlaying={setisPlaying}
+              currentSong={currentSong}
               setCurrentSong={setCurrentSong}
               element={element}
               index={index}

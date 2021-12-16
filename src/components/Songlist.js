@@ -7,10 +7,19 @@ export default function Songlist({
   element,
   index,
   decodeHTML,
+  currentSong,
   setCurrentSong,
   setisPlaying,
   setProgress,
 }) {
+const selectedStyle =()=> {
+  if (element.id == currentSong.id) {
+    return {
+      backgroundColor: "#80ffee",
+    }
+  }
+}
+
   const getAudioHandler = (e) => {
     setProgress(10);
     getAudio(e.target.id).then((data) => {
@@ -21,7 +30,7 @@ export default function Songlist({
     });
   };
   return (
-    <SongList id={`${element.id}`} onClick={getAudioHandler}>
+    <SongList id={`${element.id}`} onClick={getAudioHandler} style={selectedStyle()}>
       <motion.div
         className="overlay"
         initial={{ y: 150 }}

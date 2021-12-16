@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 export default function Songlist({
   element,
+  index,
   decodeHTML,
   setCurrentSong,
   setisPlaying,
@@ -14,7 +15,6 @@ export default function Songlist({
     setProgress(10);
     getAudio(e.target.id).then((data) => {
       setProgress(60);
-      // data && console.log(data.data);
       data && setCurrentSong(data.data);
       data && setisPlaying(true);
       setProgress(100);
@@ -24,11 +24,12 @@ export default function Songlist({
     <SongList id={`${element.id}`} onClick={getAudioHandler}>
       <motion.div
         className="overlay"
-        initial={{ y: 200 }}
+        initial={{ y: 150 }}
         animate={{
           y: 0,
           transition: {
-            duration: 0.5,
+            duration: .75,
+            delay: index * 0.1,
           },
         }}
       >
@@ -44,7 +45,7 @@ export default function Songlist({
 
 const SongList = styled(motion.div)`
   position: relative;
-  padding: 2rem 5rem;
+  padding: 1rem 5rem;
   cursor: pointer;
   display: flex;
   overflow-y: hidden;
@@ -55,6 +56,8 @@ const SongList = styled(motion.div)`
   }
   .overlay{
     display: flex;
+    height:max-content;
+    pointer-events:none;
   }
     img {
       position: relative;

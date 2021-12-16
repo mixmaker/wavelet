@@ -35,7 +35,7 @@ function App() {
         setSearchedData={setSearchedData}
       />
       {searchedData &&
-        searchedData.map((element) => {
+        searchedData.map((element, index) => {
           return (
             <Songlist
               decodeHTML={decodeHTML}
@@ -43,6 +43,7 @@ function App() {
               setisPlaying={setisPlaying}
               setCurrentSong={setCurrentSong}
               element={element}
+              index={index}
               key={element.id}
             />
           );

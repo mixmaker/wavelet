@@ -27,7 +27,13 @@ export default function Player({ currentSong, isPlaying, setisPlaying }) {
   const timeUpdateHandler = (e) => {
     const current = e.target.currentTime;
     const duration = e.target.duration;
-    setSongInfo({ ...songInfo, currentTime: current, duration });
+    const anim = Math.round((current / duration) * 100);
+    setSongInfo({
+      ...songInfo,
+      currentTime: current,
+      duration,
+      animationPercent: anim,
+    });
     if (current === duration) {
       setisPlaying(false);
     }
@@ -48,7 +54,14 @@ export default function Player({ currentSong, isPlaying, setisPlaying }) {
   const [songInfo, setSongInfo] = useState({
     currentTime: "0:00",
     duration: "0:00",
+    animationPercent: 0,
   });
+
+  //styles for input slider
+  const trackAnim = {
+    transform: `translateX(${songInfo.animationPercent}%)`,
+  };
+
   return (
     <StyledPlayer
       initial={{
@@ -62,21 +75,24 @@ export default function Player({ currentSong, isPlaying, setisPlaying }) {
       }}
     >
       <div className="songDetail">
-        <motion.img src={currentSong.image} alt="Songimg" />
+        <img src={currentSong.image} alt="Songimg" />
         <div className="text">
-          <motion.h2>{currentSong.song}</motion.h2>
-          <h3 className="artist">{currentSong.singers}</h3>
+          <h2>{currentSong.song}</h2>
+          <h3>{currentSong.singers}</h3>
         </div>
       </div>
       <div className="time-control">
         <p>{timeFormatter(songInfo.currentTime)}</p>
-        <input
-          min={0}
-          max={songInfo.duration || 0}
-          value={songInfo.currentTime}
-          onChange={dragHandler}
-          type="range"
-        />
+        <div className="track">
+          <input
+            min={0}
+            max={songInfo.duration || 0}
+            value={songInfo.currentTime}
+            onChange={dragHandler}
+            type="range"
+          />
+          <div className="animate-track" style={trackAnim}></div>
+        </div>
         <p>{timeFormatter(songInfo.duration)}</p>
       </div>
       <div className="play-control">
@@ -121,18 +137,53 @@ const StyledPlayer = styled(motion.div)`
     }
     .text {
       padding: 0 2rem;
+      h3 {
+        color: #c2c2c2;
+      }
     }
   }
   .time-control {
     display: flex;
-    justify-content: space-around;
+    /* justify-content: center; */
     align-items: center;
     width: 40%;
     p {
-      padding: 0 1rem;
+      width: 3rem;
+      margin: 0 1rem;
+      text-align: center;
     }
-    input {
+    .track {
       width: 100%;
+      height: 0.75rem;
+      background: #30e3ca;
+      position: relative;
+      overflow: hidden;
+      border-radius: 1rem;
+      cursor: pointer;
+      input {
+        width: 100%;
+        -webkit-appearance: none;
+        background: transparent;
+        /* padding: 1rem 0; */
+        &:focus {
+          outline: none;
+        }
+      }
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        height: .75rem;
+        width: .75rem;
+        cursor:pointer;
+      }
+      .animate-track {
+        background: rgb(204, 204, 204);
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+      }
     }
   }
   .play-control {

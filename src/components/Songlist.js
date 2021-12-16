@@ -23,7 +23,7 @@ export default function Songlist({
     <SongList id={`${element.id}`} onClick={getAudioHandler}>
       <motion.div
         className="overlay"
-        initial={{ y: 100 }}
+        initial={{ y: 200 }}
         animate={{
           y: 0,
           transition: {

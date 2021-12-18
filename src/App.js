@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Player from "./components/Player";
 import Nav from "./components/Nav";
 import Songlist from "./components/Songlist";
-import "./style/app.scss";
+import GlobalStyles from "./components/GlobalStyles";
 import LoadingBar from "react-top-loading-bar";
 function App() {
   //States
@@ -34,6 +34,7 @@ function App() {
         setInputVar={setInputVar}
         setSearchedData={setSearchedData}
       />
+        <GlobalStyles />
       {searchedData &&
         searchedData.map((element, index) => {
           return (

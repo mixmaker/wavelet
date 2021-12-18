@@ -12,15 +12,15 @@ export default function Songlist({
   setisPlaying,
   setProgress,
 }) {
-const selectedStyle =()=> {
-  if(currentSong){
-   if (element.id == currentSong.id) {
-    return {
-      backgroundColor: "#80ffee",
+  const selectedStyle = () => {
+    if (currentSong) {
+      if (element.id == currentSong.id) {
+        return {
+          backgroundColor: "#80ffee",
+        };
+      }
     }
-  }
-}
-}
+  };
 
   const getAudioHandler = (e) => {
     setProgress(10);
@@ -32,14 +32,18 @@ const selectedStyle =()=> {
     });
   };
   return (
-    <SongList id={`${element.id}`} onClick={getAudioHandler} style={selectedStyle()}>
+    <SongList
+      id={`${element.id}`}
+      onClick={getAudioHandler}
+      style={selectedStyle()}
+    >
       <motion.div
         className="overlay"
         initial={{ y: 150 }}
         animate={{
           y: 0,
           transition: {
-            duration: .75,
+            duration: 0.75,
             delay: index * 0.1,
           },
         }}
@@ -78,6 +82,9 @@ const SongList = styled(motion.div)`
 
     .info {
       background: transparent;
+      h3{
+        color: #696969;
+      }
     }
 
   }

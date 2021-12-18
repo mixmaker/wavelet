@@ -1,7 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import logo from "../images/wavelet_logo.png";
 import { searchSong } from "../api";
 import styled from "styled-components";
 export default function Nav({
@@ -26,9 +25,7 @@ export default function Nav({
 
   return (
     <StyledNav className="nav">
-      <div className="logo">
-        <img src={logo} alt="Wavelet Music" />
-      </div>
+<h1 className="logo">Wavelet</h1>
       <div className="search">
         <input
           type="text"
@@ -47,13 +44,14 @@ export default function Nav({
 }
 
 const StyledNav = styled.div`
-  padding: 0 1rem;
+  padding: 1rem 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: rgb(44, 44, 44);
-  .logo img {
-    height: 80px;
+  .logo {
+    font-family: 'Special Elite', cursive;
+    color:#fff;
   }
   .search {
     position: relative;

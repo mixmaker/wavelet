@@ -2,16 +2,22 @@ import React from "react";
 import { getAudio } from "../api";
 import { motion } from "framer-motion";
 import styled from "styled-components";
+import { useContext } from "react";
+import MainContext from "../context/MainContext";
 
 export default function Songlist({
   element,
   index,
-  decodeHTML,
-  currentSong,
-  setCurrentSong,
-  setisPlaying,
-  setProgress,
+  
 }) {
+  console.log(element.id)
+  const { decodeHTML,
+    currentSong,
+    setCurrentSong,
+    setisPlaying,
+    setProgress} =
+  useContext(MainContext);
+
   const selectedStyle = () => {
     if (currentSong) {
       if (element.id == currentSong.id) {
@@ -33,11 +39,11 @@ export default function Songlist({
   };
   return (
     <SongList
-      id={`${element.id}`}
       onClick={getAudioHandler}
-      style={selectedStyle()}
-    >
+      >
       <motion.div
+            id={`${element.id}`}
+      style={selectedStyle()}
         className="overlay"
         initial={{ y: 150 }}
         animate={{
@@ -48,8 +54,8 @@ export default function Songlist({
           },
         }}
       >
-        <img src={element.image} alt="" />
-        <div className="info">
+        <img src={element.image} alt={decodeHTML(element.title)} className="pe" />
+        <div className="info pe">
           <h2>{decodeHTML(element.title)}</h2>
           <h3>{decodeHTML(element.more_info.singers)}</h3>
         </div>
@@ -59,33 +65,39 @@ export default function Songlist({
 }
 
 const SongList = styled(motion.div)`
-  position: relative;
-  padding: 1rem 5rem;
-  cursor: pointer;
-  display: flex;
-  overflow-y: hidden;
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: #ccfff8;
-  }
+  position:relative;
+  margin: 1rem;
+  /* padding:.5rem; */
+  border-radius: 14px;
+  width:100%;
+  cursor:pointer;
+  transition: .5s;
+  overflow:hidden;
+  /* &::before{
+    content:'';
+    display:block;
+    position:absolute;
+    height:100%;
+    width:5px;
+    background: green;
+    z-index:-1;
+  } */
   .overlay{
-    display: flex;
-    height:max-content;
-    pointer-events:none;
-  }
-    img {
-      position: relative;
-      height: 90px;
-      margin-right: 1rem;
+    transition:.5s;
+    &:hover{
+      background: #ed9de8;
     }
-
-    .info {
-      background: transparent;
-      h3{
-        color: #696969;
-      }
+    .pe{
+      pointer-events:none;
     }
-
+    display:flex;
+    padding:.5rem;
+    .info{
+      padding: 0 1rem;
+    }
   }
+img{
+  height:80px;
+  border-radius: 24px;
+}
 `;

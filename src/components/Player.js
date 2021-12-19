@@ -9,13 +9,22 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
 import styled from "styled-components";
+import { useContext } from "react";
+import MainContext from "../context/MainContext";
 
 export default function Player({
-  decodeHTML,
-  currentSong,
-  isPlaying,
-  setisPlaying,
+  // decodeHTML,
+  // currentSong,
+  // isPlaying,
+  // setisPlaying,
 }) {
+  const {  decodeHTML,
+    currentSong,
+    isPlaying,
+    setisPlaying, } =
+  useContext(MainContext);
+
+
   //refs
   const audioRef = useRef(null);
   //event handlers
@@ -138,7 +147,7 @@ const StyledPlayer = styled(motion.div)`
     width: 40%;
 
     img {
-      height: 70px;
+      height: 80px;
     }
     .text {
       padding: 0 2rem;

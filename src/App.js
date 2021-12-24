@@ -1,10 +1,10 @@
-import React, { useState , useContext} from "react";
+import React, { useContext } from "react";
 import GlobalStyles from "./components/GlobalStyles";
 import LoadingBar from "react-top-loading-bar";
 import MainContext from "./context/MainContext";
 import styled from "styled-components";
 //react router
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 //components
 import Nav from "./components/Nav";
@@ -12,10 +12,10 @@ import Home from "./components/Home";
 import Search from "./components/Search";
 import Playlist from "./components/Playlist";
 import Player from "./components/Player";
+import Fsplayer from "./components/Fsplayer";
 
 function App() {
-
-  const {currentSong,progress, setProgress}=useContext(MainContext);
+  const { currentSong, progress, setProgress } = useContext(MainContext);
   //States
   // const [inputVar, setInputVar] = useState(); //get user input
   // const [searchedData, setSearchedData] = useState(); //data of searched item
@@ -23,11 +23,10 @@ function App() {
   // const [isPlaying, setisPlaying] = useState(false); //check if playing or not
   // const [progress, setProgress] = useState(0);
 
-
   return (
-      <Router>
+    <Router>
       <StyledApp className="App">
-      <LoadingBar
+        <LoadingBar
           color="#ff4ff3"
           height={3}
           loaderSpeed={800}
@@ -40,31 +39,32 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route exact path="/search" element={<Search />} />
           <Route exact path="/playlists" element={<Playlist />} />
-          <Route exact path="/" element={<Player />} />
+          <Route exact path="/player" element={<Fsplayer />} />
         </Routes>
         {currentSong && (
-        <Player
-        //   decodeHTML={decodeHTML}
-        //   isPlaying={isPlaying}
-        //   setisPlaying={setisPlaying}
-        //   currentSong={currentSong}
-        />
-      )}
+          <Player
+          //   decodeHTML={decodeHTML}
+          //   isPlaying={isPlaying}
+          //   setisPlaying={setisPlaying}
+          //   currentSong={currentSong}
+          />
+        )}
       </StyledApp>
     </Router>
-  )
+  );
 }
 
 const StyledApp = styled.div`
-display: flex;
+  display: flex;
 `;
 
 export default App;
-      
-        {/* <Nav
+
+{
+  /* <Nav
           // setProgress={setProgress}
           // inputVar={inputVar}
           // setInputVar={setInputVar}
           // setSearchedData={setSearchedData}
-        /> */}
-        
+        /> */
+}

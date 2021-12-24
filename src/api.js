@@ -1,12 +1,9 @@
 import axios from "axios";
 
-export const searchSong = (songName) => {
-  return axios
-    .get(`${process.env.REACT_APP_URL}/search?query=${songName}`)
-    .then((data) => {
-      // console.log(data)
-      return data.data.results;
-    });
+export const searchSong = async (songName) => {
+  const data = await axios
+    .get(`${process.env.REACT_APP_URL}/search?query=${songName}`);
+  return data.data.results;
 };
 
 // export const getAudio = (id)=>{
@@ -18,6 +15,6 @@ export const searchSong = (songName) => {
 
 // }
 
-export const getAudio = async (id) => {
+export const getDetails = (id) => {
   return axios.get(`${process.env.REACT_APP_URL}/song?id=${id}`);
 };

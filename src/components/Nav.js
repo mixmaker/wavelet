@@ -1,6 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome, faSearch, faList, faMusic } from "@fortawesome/free-solid-svg-icons";
 
 export default function Nav(
   {
@@ -12,20 +14,23 @@ export default function Nav(
 ) {
   return (
     <StyledNav>
-      <h1 className="logo">Wavelet</h1>
-      <div className="menu-items">
-        <NavLink to="/" activeClassName="active">
-          Home
-        </NavLink>
-        <NavLink to="/search" activeClassName="active">
-          Search
-        </NavLink>
-        <NavLink to="/playlists" activeClassName="active">
-          My Playlists
-        </NavLink>
-        <NavLink to="/player" activeClassName="active">
-          Now Playing
-        </NavLink>
+      <div className="wrapper">
+        <h1 className="logo">Wavelet</h1>
+        <div className="menu-items">
+          <NavLink to="/" activeClassName="active">
+            <FontAwesomeIcon icon={faHome} />
+            Home
+          </NavLink>
+          <NavLink to="/search" activeClassName="active">
+          <FontAwesomeIcon icon={faSearch} />Search
+          </NavLink>
+          <NavLink to="/playlists" activeClassName="active">
+          <FontAwesomeIcon icon={faList} />My Playlists
+          </NavLink>
+          <NavLink to="/player" activeClassName="active">
+          <FontAwesomeIcon icon={faMusic} />Now Playing
+          </NavLink>
+        </div>
       </div>
     </StyledNav>
   );
@@ -33,9 +38,16 @@ export default function Nav(
 
 const StyledNav = styled.div`
   position: relative;
-  width: max-content;
-  height: 100vh;
-  background: #1ffff4;
+  width: 300px;
+  font-family: "Comfortaa", cursive;
+  svg{
+    margin-right:.5rem;
+  }
+  .wrapper {
+    height: 100vh;
+    background: #1ffff4;
+    position: fixed;
+  }
   .active {
     padding-left: 1rem;
     border-left: 4px solid black;
@@ -44,6 +56,7 @@ const StyledNav = styled.div`
   .logo {
     padding: 3rem;
     font-size: 2.5rem;
+    font-family: "Shadows Into Light", cursive;
   }
   .menu-items {
     width: 100%;

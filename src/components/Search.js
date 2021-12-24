@@ -1,14 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 import Songlist from "./Songlist";
-import Player from "./Player";
 import { searchSong } from "../api";
 import { useContext } from "react";
 import MainContext from "../context/MainContext";
 
 const Search = () => {
-  const {currentSong, inputVar, setInputVar, searchedData, setSearchedData, setProgress } =
-    useContext(MainContext);
+  const {
+    inputVar,
+    setInputVar,
+    searchedData,
+    setSearchedData,
+    setProgress,
+  } = useContext(MainContext);
 
   const getInput = (e) => {
     setInputVar(e.target.value);
@@ -36,20 +40,8 @@ const Search = () => {
       <div className="list">
         {searchedData &&
           searchedData.map((element, index) => {
-            return (
-              <Songlist
-                // decodeHTML={decodeHTML}
-                // setProgress={setProgress}
-                // setisPlaying={setisPlaying}
-                // currentSong={currentSong}
-                // setCurrentSong={setCurrentSong}
-                element={element}
-                index={index}
-                key={element.id}
-              />
-            );
+            return <Songlist element={element} index={index} key={element.id} />;
           })}
-          
       </div>
     </StyledSearch>
   );
@@ -63,16 +55,18 @@ const StyledSearch = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  overflow-y: visible;
 
   input {
     font-size: 1.3rem;
     padding: 0.5rem;
     width: 350px;
-    margin-bottom:1rem;
+    margin-bottom: 1rem;
+    transition: 0.5s;
   }
   .list {
-   width:100%;
-   }
+    width: 100%;
+  }
 `;
 
 export default Search;

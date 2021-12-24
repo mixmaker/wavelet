@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
   faPause,
-  faChevronUp,
   faAngleLeft,
   faAngleRight,
 } from "@fortawesome/free-solid-svg-icons";
@@ -11,19 +10,26 @@ import { motion } from "framer-motion";
 import styled from "styled-components";
 import { useContext } from "react";
 import MainContext from "../context/MainContext";
+import { getDetails } from "../api";
 
-export default function Player({
-  // decodeHTML,
-  // currentSong,
-  // isPlaying,
-  // setisPlaying,
-}) {
-  const {  decodeHTML,
+export default function Player(
+  {
+    // decodeHTML,
+    // currentSong,
+    // isPlaying,
+    // setisPlaying,
+  }
+) {
+  const {
+    decodeHTML,
     currentSong,
     isPlaying,
-    setisPlaying, } =
-  useContext(MainContext);
-
+    setisPlaying,
+    setPlaylist,
+    playlist,
+    setProgress,
+    setCurrentSong,
+  } = useContext(MainContext);
 
   //refs
   const audioRef = useRef(null);
@@ -64,6 +70,24 @@ export default function Player({
     setSongInfo({ ...songInfo, currentTime: e.target.value });
   };
 
+  const skipsongHandler = (direction) => {
+    let currentIndex = playlist.findIndex((id) => currentSong.id === id.id);
+    if (direction === "skip-forward") {
+      console.log(currentIndex)
+      setCurrentSong(playlist[currentIndex+1]);
+      console.log(playlist[currentIndex+1]);
+      setProgress(60);
+      setisPlaying(true);
+      setProgress(100);
+    }
+    if (direction === "skip-back") {
+      setCurrentSong(playlist[currentIndex - 1]);
+      setProgress(60);
+      setisPlaying(true);
+      setProgress(100);
+    }
+  };
+
   //states
   const [songInfo, setSongInfo] = useState({
     currentTime: "0:00",
@@ -92,7 +116,7 @@ export default function Player({
         <img src={currentSong.image} alt="Songimg" />
         <div className="text">
           <h2>{decodeHTML(currentSong.song)}</h2>
-          <h3>{decodeHTML(currentSong.singers)}</h3>
+          <h3 className="artist">{decodeHTML(currentSong.singers)}</h3>
         </div>
       </div>
       <div className="time-control">
@@ -110,13 +134,21 @@ export default function Player({
         <p>{timeFormatter(songInfo.duration)}</p>
       </div>
       <div className="play-control">
-        <FontAwesomeIcon className="skip-back" icon={faAngleLeft} />
+        <FontAwesomeIcon
+          onClick={() => skipsongHandler("skip-back")}
+          className="skip-back"
+          icon={faAngleLeft}
+        />
         <FontAwesomeIcon
           className="play"
           onClick={playpauseHandler}
           icon={isPlaying ? faPause : faPlay}
         />
-        <FontAwesomeIcon className="skip-forward" icon={faAngleRight} />
+        <FontAwesomeIcon
+          onClick={() => skipsongHandler("skip-forward")}
+          className="skip-forward"
+          icon={faAngleRight}
+        />
       </div>
       <audio
         ref={audioRef}
@@ -207,7 +239,9 @@ const StyledPlayer = styled(motion.div)`
     justify-content: space-around;
     font-size: 1.5rem;
 
-    .play {
+    .play,
+    .skip-forward,
+    .skip-back {
       cursor: pointer;
     }
   }

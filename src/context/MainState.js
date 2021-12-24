@@ -6,8 +6,8 @@ const MainState = (props) => {
   const [searchedData, setSearchedData] = useState(); //data of searched item
   const [currentSong, setCurrentSong] = useState(); //get details of song
   const [isPlaying, setisPlaying] = useState(false); //check if playing or not
-  const [progress, setProgress] = useState(0);
-const [no, setno] = useState(0)
+  const [progress, setProgress] = useState(0); //For top-loading-bar
+const [playlist, setPlaylist] = useState([]) //Playlist
 
   //decode encoded HTML
   var decodeHTML = function (html) {
@@ -18,7 +18,6 @@ const [no, setno] = useState(0)
   return (
     <MainContext.Provider
       value={{
-        setno,
         inputVar,
         setInputVar,
         searchedData,
@@ -29,6 +28,8 @@ const [no, setno] = useState(0)
         setisPlaying,
         progress,
         setProgress,
+        playlist,
+        setPlaylist,
         decodeHTML
       }}
     >

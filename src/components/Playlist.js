@@ -8,7 +8,7 @@ const Playlist = () => {
   const { playlist, decodeHTML, currentSong } = useContext(MainContext);
 
   return (
-    <StyledPlaylist>
+    <StyledPlaylist className="left">
       {playlist.length === 0 && (
         <h3>Add some songs to playlist and they will appear here</h3>
       )}
@@ -45,12 +45,11 @@ const Playlist = () => {
 };
 
 const StyledPlaylist = styled.div`
-  position: relative;
-  margin: 2rem 0;
+  margin: 2rem;
   .main {
     display: flex;
     align-items: center;
-    width: 500px || max-content;
+    width: 500px;
     margin: 1rem 0;
   }
   .heading {
@@ -58,26 +57,22 @@ const StyledPlaylist = styled.div`
   }
   .details {
     transition: 0.5s;
-    cursor: pointer;
     padding: 0.5rem;
     display: flex;
     width: 100%;
     .info {
       h4 {
         font-size: 1.2rem;
-        color: #535353;
+        color: #d3d3d3;
       }
-      h5 {
+      .artist {
         font-size: 0.9rem;
-        color: #616161;
+        color: #919191;
       }
     }
     img {
       height: 60px;
       border-radius: 14px;
-    }
-    &:hover {
-      background: #ed9de8;
     }
   }
   .info {

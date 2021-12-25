@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 const Fsplayer = () => {
     return (
-        <StyledFsplayer>
+        <StyledFsplayer className='left'>
             Full screen player coming soon...
         </StyledFsplayer>
     )

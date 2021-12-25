@@ -23,7 +23,7 @@ export default function Songlist({ element, index }) {
     if (currentSong) {
       if (element.id === currentSong.id) {
         return {
-          backgroundColor: "#80ffee",
+          backgroundColor: "#56297999",
         };
       }
     }
@@ -144,9 +144,9 @@ const SongList = styled(motion.div)`
     transition: 0.5s;
 
     &:hover {
-      background: #ed9de8;
+      background: #116b64be;
     }
-    border-radius: 24px;
+    border-radius: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -173,14 +173,15 @@ const SongList = styled(motion.div)`
       z-index: 5;
       padding: 0.25rem;
       font-size: 1.5rem;
+      border-radius: 5px;
       &:hover {
-        background: lightblue;
+        background: #8b68a5f9;
       }
     }
     .info {
       padding: 0 1rem;
-      h3{
-        color:#616161;
+      .artist{
+        color:#bebebeb9;
       }
     }
   }

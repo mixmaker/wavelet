@@ -101,7 +101,7 @@ export default function Player(
   };
 
   return (
-    <StyledPlayer
+    <StyledPlayer 
       initial={{
         y: 100,
       }}
@@ -164,6 +164,7 @@ export default function Player(
 const StyledPlayer = styled(motion.div)`
   position: fixed;
   bottom: 0;
+  left: 5rem;
   display: flex;
   align-items: center;
   padding: 0.75rem 5rem;

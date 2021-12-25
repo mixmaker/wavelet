@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext , useRef} from "react";
 import GlobalStyles from "./components/GlobalStyles";
 import LoadingBar from "react-top-loading-bar";
 import MainContext from "./context/MainContext";
@@ -15,6 +15,7 @@ import Player from "./components/Player";
 import Fsplayer from "./components/Fsplayer";
 
 function App() {
+  const loaderRef = useRef(null)
   const { currentSong, progress, setProgress } = useContext(MainContext);
   //States
   // const [inputVar, setInputVar] = useState(); //get user input
@@ -27,20 +28,23 @@ function App() {
     <Router>
       <StyledApp className="App">
         <LoadingBar
+        ref={loaderRef}
           color="#ff4ff3"
-          height={3}
+          height={2}
           loaderSpeed={800}
           progress={progress}
           onLoaderFinished={() => setProgress(0)}
         />
-        <Nav />
+        <Nav loaderRef={loaderRef} />
         <GlobalStyles />
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/search" element={<Search />} />
-          <Route exact path="/playlists" element={<Playlist />} />
-          <Route exact path="/player" element={<Fsplayer />} />
-        </Routes>
+        <div className="bg">
+        </div>
+          <Routes>
+            <Route exact path="/" element={<Home loaderRef={loaderRef} />} />
+            <Route exact path="/search" element={<Search />} />
+            <Route exact path="/playlists" element={<Playlist />} />
+            <Route exact path="/player" element={<Fsplayer />} />
+          </Routes>
         {currentSong && (
           <Player
           //   decodeHTML={decodeHTML}
@@ -56,6 +60,8 @@ function App() {
 
 const StyledApp = styled.div`
   display: flex;
+  .bg {
+  }
 `;
 
 export default App;

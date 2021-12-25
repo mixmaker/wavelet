@@ -6,16 +6,37 @@ const GlobalStyles = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
 }
+::-webkit-scrollbar{
+    width: .5rem;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
 body{
+    //#1f1919
+    background: #131010;
+    color: #fff;
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin-bottom: 5rem;
     font-family: 'Padauk', sans-serif;
+    overflow-x: hidden;
 }
 .artist{
     font-family: 'Indie Flower', cursive;
     letter-spacing: 1px;
   }
-`
+  .left{
+      position: absolute;
+      left: 5rem;
+      width: calc(100% - 5rem);
+  }
+`;
 export default GlobalStyles;

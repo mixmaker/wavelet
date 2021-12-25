@@ -29,7 +29,7 @@ const Search = () => {
   };
 
   return (
-    <StyledSearch>
+    <StyledSearch className="left">
       <input
         type="text"
         name="songname"
@@ -48,14 +48,14 @@ const Search = () => {
 };
 
 const StyledSearch = styled.div`
-  position: relative;
-  width: 100%;
-  margin: 2rem;
+  /* position: relative; */
+  /* width: 100%; */
+  margin: 2rem 5rem;
+  width: 90%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  overflow-y: visible;
 
   input {
     font-size: 1.3rem;
@@ -65,7 +65,7 @@ const StyledSearch = styled.div`
     transition: 0.5s;
   }
   .list {
-    width: 100%;
+    width: 70%;
   }
 `;
 

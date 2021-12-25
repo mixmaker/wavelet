@@ -15,6 +15,7 @@ body{
 }
 .artist{
     font-family: 'Indie Flower', cursive;
+    letter-spacing: 1px;
   }
 `
 export default GlobalStyles;

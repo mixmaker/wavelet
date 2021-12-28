@@ -5,8 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
 
 const Playlist = () => {
-  const { playlist, decodeHTML, currentSong } = useContext(MainContext);
-
+  //import contexts
+  const { playlist, decodeHTML, currentSong, setProgress } =
+    useContext(MainContext);
   return (
     <StyledPlaylist className="left">
       {playlist.length === 0 && (

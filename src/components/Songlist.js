@@ -91,26 +91,29 @@ export default function Songlist({ element, index }) {
         id={`${element.id}`}
         style={selectedStyle()}
         className="overlay"
-        initial={{ y: 100 , opacity: 0}}
-        animate={{
-          y: 0,
-          opacity: 1,
-          transition: {
-            duration: 0.75,
-            delay: index * 0.05,
-          },
-        }}
       >
         <div className="details" onClick={getAudioHandler}>
-          <img
+          <motion.img
+            initial={{ scale: 0 }}
+            animate={{
+              scale: 1,
+              transition: { duration: 0.7, delay: index * 0.1 },
+            }}
             src={element.image}
             alt={decodeHTML(element.title)}
             className="pe"
           />
-          <div className="info pe">
+          <motion.div
+            className="info pe"
+            initial={{ y: 100 }}
+            animate={{
+              y: 0,
+              transition: { duration: 0.7, delay: index * 0.1 },
+            }}
+          >
             <h2>{decodeHTML(element.title)}</h2>
             <h3 className="artist">{decodeHTML(element.more_info.singers)}</h3>
-          </div>
+          </motion.div>
         </div>
         <div className="icons">
           <FontAwesomeIcon
@@ -127,19 +130,9 @@ export default function Songlist({ element, index }) {
 const SongList = styled(motion.div)`
   position: relative;
   margin: 1rem;
-  /* padding:.5rem; */
   width: 100%;
   transition: 0.5s;
   overflow: hidden;
-  /* &::before{
-    content:'';
-    display:block;
-    position:absolute;
-    height:100%;
-    width:5px;
-    background: green;
-    z-index:-1;
-  } */
   .overlay {
     transition: 0.5s;
 
@@ -150,7 +143,7 @@ const SongList = styled(motion.div)`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-left: .5rem;
+    padding-left: 0.5rem;
     .details {
       transition: 0.5s;
       cursor: pointer;
@@ -162,7 +155,7 @@ const SongList = styled(motion.div)`
         border-radius: 14px;
       }
     }
-    .icons{
+    .icons {
       padding: 0 2rem;
     }
     .pe {
@@ -180,8 +173,8 @@ const SongList = styled(motion.div)`
     }
     .info {
       padding: 0 1rem;
-      .artist{
-        color:#bebebeb9;
+      .artist {
+        color: #bebebeb9;
       }
     }
   }

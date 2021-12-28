@@ -1,27 +1,85 @@
-import React, { useRef } from "react";
+import React, {useEffect, useContext} from "react";
+import MainContext from "../context/MainContext";
 import styled from "styled-components";
 import bg from "../images/bg.png";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
-const Home = ({ loaderRef }) => {
+const logoVariants = {
+  hidden: {
+    y: 50,
+  },
+  visible: {
+    y: 0,
+    transition: {
+      duration: 0.1,
+      when: "beforeChildren",
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const letterVariants = {
+  hidden: {
+    opacity: 0,
+    y: 10,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 1,
+    },
+  },
+};
+const Home = () => {
+  //import contexts
+  const { setProgress } = useContext(MainContext);
+  //set top-loading-bar progress to 100 when page is completely loaded
+  useEffect(() => {
+    setProgress(100);
+  }, []);
   return (
     <StyledHome className="home left">
-      <h1 className="logo">Wavelet</h1>
+      <div className="logoDiv">
+        <motion.div
+          className="logo"
+          variants={logoVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.h1 className="letter1" variants={letterVariants}>
+            W
+          </motion.h1>
+          <motion.h1 className="letter2" variants={letterVariants}>
+            a
+          </motion.h1>
+          <motion.h1 className="letter3" variants={letterVariants}>
+            v
+          </motion.h1>
+          <motion.h1 className="letter4" variants={letterVariants}>
+            e
+          </motion.h1>
+          <motion.h1 className="letter5" variants={letterVariants}>
+            l
+          </motion.h1>
+          <motion.h1 className="letter6" variants={letterVariants}>
+            e
+          </motion.h1>
+          <motion.h1 className="letter7" variants={letterVariants}>
+            t
+          </motion.h1>
+        </motion.div>
+      </div>
       <div className="bg">
         <img src={bg} alt="" />
       </div>
       <div className="text">
-        <h2>
+        <motion.h2>
           Let the <span>music </span>take you away...
-        </h2>
-        <h3>Start listening to your favourite songs now</h3>
-        <Link
-          to="/search"
-          onClick={() => {
-            loaderRef.current.continuousStart();
-            setTimeout(()=>loaderRef.current.complete(), 0)
-          }}
-        >
+        </motion.h2>
+        <motion.h3>Start listening to your favourite songs now</motion.h3>
+        <Link to="/search">
           Explore <span>→</span>
         </Link>
       </div>
@@ -29,7 +87,7 @@ const Home = ({ loaderRef }) => {
   );
 };
 
-const StyledHome = styled.div`
+const StyledHome = styled(motion.div)`
   height: 100vh;
   padding: 2rem;
   overflow: hidden;
@@ -39,9 +97,16 @@ const StyledHome = styled.div`
     #181138 17.77%,
     #020112 49.48%
   );
-
-  .logo {
-    font-family: "Shadows Into Light", cursive;
+  .logoDiv {
+    height: max-content;
+    overflow: hidden;
+    .logo {
+      display: flex;
+      font-size: 1.3rem;
+      font-family: "Shadows Into Light", cursive;
+      overflow: hidden;
+      height: max-content;
+    }
   }
   .text {
     padding-left: 1rem;

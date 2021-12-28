@@ -4,53 +4,50 @@ import Songlist from "./Songlist";
 import { searchSong } from "../api";
 import { useContext } from "react";
 import MainContext from "../context/MainContext";
+import { motion } from "framer-motion";
 
 const Search = () => {
-  const {
-    inputVar,
-    setInputVar,
-    searchedData,
-    setSearchedData,
-    setProgress,
-  } = useContext(MainContext);
+  //import contexts
+  const { inputVar, setInputVar, searchedData, setSearchedData, setProgress } =
+    useContext(MainContext);
 
   const getInput = (e) => {
     setInputVar(e.target.value);
   };
   const songInput = async () => {
-    // setSongName(inputVar);
-    // console.log(songName)
     setProgress(10);
     let data = await searchSong(inputVar);
     setProgress(60);
-    // console.log(data)
     setSearchedData(data);
     setProgress(100);
   };
 
   return (
     <StyledSearch className="left">
-      <input
-        type="text"
-        name="songname"
-        onChange={getInput}
-        onKeyDown={(e) => e.key === "Enter" && songInput()}
-        placeholder="Search Songs Here"
-      />
-      <div className="list">
+      <div className="overlaya">
+        <input
+          type="text"
+          name="songname"
+          onChange={getInput}
+          onKeyDown={(e) => e.key === "Enter" && songInput()}
+          placeholder="Search Songs Here"
+        />
+      </div>
+      <motion.div className="list">
         {searchedData &&
           searchedData.map((element, index) => {
-            return <Songlist element={element} index={index} key={element.id} />;
+            return (
+              <Songlist element={element} index={index} key={element.id} />
+            );
           })}
-      </div>
+      </motion.div>
     </StyledSearch>
   );
 };
 
-const StyledSearch = styled.div`
-  /* position: relative; */
-  /* width: 100%; */
+const StyledSearch = styled(motion.div)`
   margin: 2rem 5rem;
+  padding-bottom: 8rem;
   width: 90%;
   display: flex;
   flex-direction: column;

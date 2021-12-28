@@ -9,55 +9,36 @@ import {
   faMusic,
 } from "@fortawesome/free-solid-svg-icons";
 import avatar from "../images/avatar.svg";
+import { useContext } from "react";
+import MainContext from "../context/MainContext";
 
-export default function Nav({ loaderRef }) {
+export default function Nav() {
+  const { setProgress } = useContext(MainContext);
+  const pageloadingHandler = () => {
+    setProgress(40);
+    setTimeout(() => {
+      setProgress(100)
+    }, 40);
+  };
   return (
     <StyledNav>
       <div className="menu-items">
-        <NavLink
-          to="/"
-          onClick={() => {
-            loaderRef.current.continuousStart();
-            setTimeout(() => loaderRef.current.complete(), 0);
-          }}
-          activeClassName="active"
-        >
+        <NavLink onClick={()=> pageloadingHandler()} to="/" activeClassName="active">
           <div className="wrapper">
             <FontAwesomeIcon icon={faHome} />
           </div>
         </NavLink>
-        <NavLink
-          to="/search"
-          onClick={() => {
-            loaderRef.current.continuousStart();
-            setTimeout(() => loaderRef.current.complete(), 0);
-          }}
-          activeClassName="active"
-        >
+        <NavLink onClick={()=> pageloadingHandler()} to="/search" activeClassName="active">
           <div className="wrapper">
             <FontAwesomeIcon icon={faSearch} />
           </div>
         </NavLink>
-        <NavLink
-          to="/playlists"
-          onClick={() => {
-            loaderRef.current.continuousStart();
-            setTimeout(() => loaderRef.current.complete(), 0);
-          }}
-          activeClassName="active"
-        >
+        <NavLink onClick={()=> pageloadingHandler()} to="/playlists" activeClassName="active">
           <div className="wrapper">
             <FontAwesomeIcon icon={faList} />
           </div>
         </NavLink>
-        <NavLink
-          to="/player"
-          onClick={() => {
-            loaderRef.current.continuousStart();
-            setTimeout(() => loaderRef.current.complete(), 0);
-          }}
-          activeClassName="active"
-        >
+        <NavLink onClick={()=> pageloadingHandler()} to="/player" activeClassName="active">
           <div className="wrapper">
             <FontAwesomeIcon icon={faMusic} />
           </div>

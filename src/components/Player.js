@@ -12,14 +12,8 @@ import { useContext } from "react";
 import MainContext from "../context/MainContext";
 import { getDetails } from "../api";
 
-export default function Player(
-  {
-    // decodeHTML,
-    // currentSong,
-    // isPlaying,
-    // setisPlaying,
-  }
-) {
+export default function Player() {
+  //contexts
   const {
     decodeHTML,
     currentSong,
@@ -73,9 +67,9 @@ export default function Player(
   const skipsongHandler = (direction) => {
     let currentIndex = playlist.findIndex((id) => currentSong.id === id.id);
     if (direction === "skip-forward") {
-      console.log(currentIndex)
-      setCurrentSong(playlist[currentIndex+1]);
-      console.log(playlist[currentIndex+1]);
+      console.log(currentIndex);
+      setCurrentSong(playlist[currentIndex + 1]);
+      console.log(playlist[currentIndex + 1]);
       setProgress(60);
       setisPlaying(true);
       setProgress(100);
@@ -101,62 +95,58 @@ export default function Player(
   };
 
   return (
-    <StyledPlayer 
-      initial={{
-        y: 100,
-      }}
-      animate={{
-        y: 0,
-        transition: {
-          duration: 0.5,
-        },
-      }}
+    <StyledPlayer
+      initial={{ y: 100 }}
+      animate={{ y: 0, transition: { duration: 0.5 } }}
+      className="left"
     >
-      <div className="songDetail">
-        <img src={currentSong.image} alt="Songimg" />
-        <div className="text">
-          <h2>{decodeHTML(currentSong.song)}</h2>
-          <h3 className="artist">{decodeHTML(currentSong.singers)}</h3>
-        </div>
+      <div className="track">
+        <input
+          min={0}
+          max={songInfo.duration || 0}
+          value={songInfo.currentTime}
+          onChange={dragHandler}
+          type="range"
+        />
+        <div className="animate-track" style={trackAnim}></div>
       </div>
-      <div className="time-control">
-        <p>{timeFormatter(songInfo.currentTime)}</p>
-        <div className="track">
-          <input
-            min={0}
-            max={songInfo.duration || 0}
-            value={songInfo.currentTime}
-            onChange={dragHandler}
-            type="range"
+      <div className="box">
+        <div className="songDetail">
+          <img src={currentSong.image} alt="Songimg" />
+          <div className="text">
+            <h2>{decodeHTML(currentSong.song)}</h2>
+            <h3 className="artist">{decodeHTML(currentSong.singers)}</h3>
+          </div>
+        </div>
+        <div className="time">
+          <p>{timeFormatter(songInfo.currentTime)}</p>/
+          <p>{timeFormatter(songInfo.duration)}</p>
+        </div>
+        <div className="play-control">
+          <FontAwesomeIcon
+            onClick={() => skipsongHandler("skip-back")}
+            className="skip-back"
+            icon={faAngleLeft}
           />
-          <div className="animate-track" style={trackAnim}></div>
+          <FontAwesomeIcon
+            className="play"
+            onClick={playpauseHandler}
+            icon={isPlaying ? faPause : faPlay}
+          />
+          <FontAwesomeIcon
+            onClick={() => skipsongHandler("skip-forward")}
+            className="skip-forward"
+            icon={faAngleRight}
+          />
         </div>
-        <p>{timeFormatter(songInfo.duration)}</p>
+        <audio
+          ref={audioRef}
+          onLoadedMetadata={timeUpdateHandler}
+          src={currentSong.media_url}
+          autoPlay
+          onTimeUpdate={timeUpdateHandler}
+        ></audio>
       </div>
-      <div className="play-control">
-        <FontAwesomeIcon
-          onClick={() => skipsongHandler("skip-back")}
-          className="skip-back"
-          icon={faAngleLeft}
-        />
-        <FontAwesomeIcon
-          className="play"
-          onClick={playpauseHandler}
-          icon={isPlaying ? faPause : faPlay}
-        />
-        <FontAwesomeIcon
-          onClick={() => skipsongHandler("skip-forward")}
-          className="skip-forward"
-          icon={faAngleRight}
-        />
-      </div>
-      <audio
-        ref={audioRef}
-        onLoadedMetadata={timeUpdateHandler}
-        src={currentSong.media_url}
-        autoPlay
-        onTimeUpdate={timeUpdateHandler}
-      ></audio>
     </StyledPlayer>
   );
 }
@@ -164,17 +154,80 @@ export default function Player(
 const StyledPlayer = styled(motion.div)`
   position: fixed;
   bottom: 0;
+
+  .track {
+    width: 100%;
+    input {
+      position: relative;
+      top: 0;
+      width: 100%;
+      /* -webkit-appearance: none; */
+      height: 2px;
+    }
+    /* input[type="range"]:focus {
+      outline: none;
+    } */
+    /* input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 2px;
+      width: 2px;
+      background-color: black;
+    } */
+  }
+  .box {
+    position: relative;
+    padding: 1rem 0;
+    background: linear-gradient(
+      160deg,
+      #241e3a 7.94%,
+      #181138 17.77%,
+      #020112 49.48%
+    );
+    /* padding-bottom: 1rem; */
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .songDetail {
+      display: flex;
+      width: max-content;
+      img {
+        padding-right: 1rem;
+        height: 70px;
+      }
+    }
+
+    .time {
+      display: flex;
+      font-size: 1.1rem;
+    }
+
+    .play-control {
+      display: flex;
+      width: 30%;
+      justify-content: space-around;
+      font-size: 1.4rem;
+      svg{
+        cursor: pointer;
+      }
+    }
+  }
+  /* position: fixed;
+  bottom: 0;
   left: 5rem;
   display: flex;
   align-items: center;
   padding: 0.75rem 5rem;
-  background: #292727;
+  background: linear-gradient(
+    160deg,
+    #241e3a 7.94%,
+    #181138 17.77%,
+    #020112 49.48%
+  );
   color: white;
   width: 100%;
   .songDetail {
     display: flex;
-    /* padding: 0 5rem; */
-    /* justify-content: space-evenly; */
     align-items: center;
 
     width: 40%;
@@ -191,7 +244,6 @@ const StyledPlayer = styled(motion.div)`
   }
   .time-control {
     display: flex;
-    /* justify-content: center; */
     align-items: center;
     width: 40%;
     p {
@@ -211,7 +263,6 @@ const StyledPlayer = styled(motion.div)`
         width: 100%;
         -webkit-appearance: none;
         background: transparent;
-        /* padding: 1rem 0; */
         &:focus {
           outline: none;
         }
@@ -245,5 +296,5 @@ const StyledPlayer = styled(motion.div)`
     .skip-back {
       cursor: pointer;
     }
-  }
+  } */
 `;

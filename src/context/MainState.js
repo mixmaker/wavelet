@@ -7,7 +7,12 @@ const MainState = (props) => {
   const [currentSong, setCurrentSong] = useState(); //get details of song
   const [isPlaying, setisPlaying] = useState(false); //check if playing or not
   const [progress, setProgress] = useState(0); //For top-loading-bar
-const [playlist, setPlaylist] = useState([]) //Playlist
+  const [playlist, setPlaylist] = useState([]); //Playlist
+  const [songInfo, setSongInfo] = useState({
+    currentTime: "0:00",
+    duration: "0:00",
+    animationPercent: 0,
+  });
 
   //decode encoded HTML
   var decodeHTML = function (html) {
@@ -30,12 +35,14 @@ const [playlist, setPlaylist] = useState([]) //Playlist
         setProgress,
         playlist,
         setPlaylist,
-        decodeHTML
+        songInfo,
+        setSongInfo,
+        decodeHTML,
       }}
     >
       {props.children}
     </MainContext.Provider>
   );
-}
+};
 
 export default MainState;

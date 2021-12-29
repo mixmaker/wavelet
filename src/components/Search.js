@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import Songlist from "./Songlist";
-import { searchSong } from "../api";
 import { useContext } from "react";
 import MainContext from "../context/MainContext";
 import { motion } from "framer-motion";
+import { getResponse } from "../api";
+import { searchResultsURL } from "../api/base";
 
 const Search = () => {
   //import contexts
@@ -14,12 +15,18 @@ const Search = () => {
   const getInput = (e) => {
     setInputVar(e.target.value);
   };
-  const songInput = async () => {
+  const songInput = () => {
     setProgress(10);
-    let data = await searchSong(inputVar);
-    setProgress(60);
-    setSearchedData(data);
-    setProgress(100);
+    getResponse(
+      searchResultsURL(inputVar),
+      (data) => {
+        console.log(data);
+        setProgress(60);
+        setSearchedData(data.results);
+        setProgress(100);
+      },
+      (err) => alert(err)
+    );
   };
 
   return (

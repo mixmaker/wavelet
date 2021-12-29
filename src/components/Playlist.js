@@ -6,8 +6,7 @@ import { faPlay } from "@fortawesome/free-solid-svg-icons";
 
 const Playlist = () => {
   //import contexts
-  const { playlist, decodeHTML, currentSong, setProgress } =
-    useContext(MainContext);
+  const { playlist, decodeHTML, currentSong } = useContext(MainContext);
   return (
     <StyledPlaylist className="left">
       {playlist.length === 0 && (

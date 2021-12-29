@@ -23,7 +23,7 @@ export default function Nav() {
   return (
     <StyledNav>
       <div className="menu-items">
-        <NavLink onClick={()=> pageloadingHandler()} to="/" activeClassName="active">
+        <NavLink onClick={()=> pageloadingHandler()} to="/home" activeClassName="active">
           <div className="wrapper">
             <FontAwesomeIcon icon={faHome} />
           </div>

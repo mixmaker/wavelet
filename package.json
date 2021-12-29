@@ -2,6 +2,7 @@
   "homepage": "https://mixmaker.github.io/",
   "name": "wavelet",
   "version": "0.1.0",
+  "proxy": "https://www.jiosaavn.com/",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.36",

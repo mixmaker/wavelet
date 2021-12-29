@@ -1,11 +1,11 @@
 import React from "react";
-import { getDetails } from "../api";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import { useContext } from "react";
 import MainContext from "../context/MainContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { getDetailsfromId } from "../api";
 
 export default function Songlist({ element, index }) {
   // console.log(element.id)
@@ -18,6 +18,11 @@ export default function Songlist({ element, index }) {
     playlist,
     setPlaylist,
   } = useContext(MainContext);
+
+  const scaleVariant = {
+    hidden: { scale: 0 },
+    visible: { scale: 1, transition: { duration: 0.7, delay: index * 0.1 } },
+  };
 
   const selectedStyle = () => {
     if (currentSong) {
@@ -39,28 +44,14 @@ export default function Songlist({ element, index }) {
   };
   const getAudioHandler = () => {
     setProgress(10);
-    getDetails(element.id).then((data) => {
+    // getDetails(element.id).then((data) => {
+    getDetailsfromId(element.id).then(({ data }) => {
+      console.log(data[element.id]);
       setProgress(60);
-      setCurrentSong(data.data);
-      setPlaylist([data.data]);
+      setCurrentSong(data[element.id]);
+      setPlaylist([data[element.id]]);
       setisPlaying(true);
       setProgress(100);
-      // let newArr = [e.target.id];
-      // if (localStorage.ids) {
-      //   if (finder(JSON.parse(localStorage.getItem("ids")), newArr[0])) {
-      //   } else {
-      //     localStorage.setItem(
-      //       "ids",
-      //       JSON.stringify(
-      //         JSON.parse(localStorage.getItem("ids")).concat(newArr)
-      //       )
-      //     );
-      //   }
-      // } else {
-      //   localStorage.setItem("ids", JSON.stringify(newArr));
-      // }
-      // console.log(JSON.parse(localStorage.getItem("ids")));
-      // // localStorage.clear()
     });
   };
 
@@ -74,15 +65,11 @@ export default function Songlist({ element, index }) {
     if (finder(idArr, element.id)) {
       alert("Song already in playlist");
     } else {
-      getDetails(element.id).then((data) => {
-        setPlaylist(playlist.concat([data.data]));
+      // getDetails(element.id).then((data) => {
+      getDetailsfromId(element.id).then(({ data }) => {
+        setPlaylist(playlist.concat(data[element.id]));
       });
     }
-    // if (finder(playlist, element.id)) {
-    //   alert("Song already in playlist");
-    // } else {
-    //   setPlaylist(playlist.concat([element.id]));
-    // }
   };
 
   return (
@@ -94,11 +81,9 @@ export default function Songlist({ element, index }) {
       >
         <div className="details" onClick={getAudioHandler}>
           <motion.img
-            initial={{ scale: 0 }}
-            animate={{
-              scale: 1,
-              transition: { duration: 0.7, delay: index * 0.1 },
-            }}
+            variants={scaleVariant}
+            initial="hidden"
+            animate="visible"
             src={element.image}
             alt={decodeHTML(element.title)}
             className="pe"
@@ -112,16 +97,27 @@ export default function Songlist({ element, index }) {
             }}
           >
             <h2>{decodeHTML(element.title)}</h2>
-            <h3 className="artist">{decodeHTML(element.more_info.singers)}</h3>
+            <h3 className="artist">
+              {decodeHTML(
+                element.more_info.artistMap.primary_artists.map(
+                  (element) => " " + element.name
+                )
+              )}
+            </h3>
           </motion.div>
         </div>
-        <div className="icons">
+        <motion.div
+          className="icons"
+          variants={scaleVariant}
+          initial="hidden"
+          animate="visible"
+        >
           <FontAwesomeIcon
             className="add"
             icon={faPlus}
             onClick={addtoPlaylistHandler}
           />
-        </div>
+        </motion.div>
       </motion.div>
     </SongList>
   );

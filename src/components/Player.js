@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 import styled from "styled-components";
 import { useContext } from "react";
 import MainContext from "../context/MainContext";
-import { getDetails } from "../api";
+import { makeMediaurl } from "../api";
 
 export default function Player() {
   //contexts
@@ -19,10 +19,11 @@ export default function Player() {
     currentSong,
     isPlaying,
     setisPlaying,
-    setPlaylist,
     playlist,
     setProgress,
     setCurrentSong,
+    songInfo,
+    setSongInfo,
   } = useContext(MainContext);
 
   //refs
@@ -37,6 +38,8 @@ export default function Player() {
       setisPlaying(!isPlaying);
     }
   };
+  //get the index in playlist of which song is playing
+  let currentIndex = playlist.findIndex((id) => currentSong.id === id.id);
 
   const timeUpdateHandler = (e) => {
     const current = e.target.currentTime;
@@ -48,16 +51,23 @@ export default function Player() {
       duration,
       animationPercent: anim,
     });
-    if (current === duration) {
+
+    //go to next song when song is completed playing (if exists in playlist)
+    if (current === duration && !playlist[currentIndex + 1]) {
       setisPlaying(false);
+    }
+    if (current === duration && playlist[currentIndex + 1]) {
+      setCurrentSong(playlist[currentIndex + 1]);
     }
     // console.log(e)
     // console.log(duration)
   };
   const timeFormatter = (time) => {
-    return (
-      Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2)
-    );
+    if (isNaN(time)) {
+      return (
+        Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2)
+      );
+    }
   };
   const dragHandler = (e) => {
     audioRef.current.currentTime = e.target.value;
@@ -65,11 +75,8 @@ export default function Player() {
   };
 
   const skipsongHandler = (direction) => {
-    let currentIndex = playlist.findIndex((id) => currentSong.id === id.id);
     if (direction === "skip-forward") {
-      console.log(currentIndex);
       setCurrentSong(playlist[currentIndex + 1]);
-      console.log(playlist[currentIndex + 1]);
       setProgress(60);
       setisPlaying(true);
       setProgress(100);
@@ -81,14 +88,6 @@ export default function Player() {
       setProgress(100);
     }
   };
-
-  //states
-  const [songInfo, setSongInfo] = useState({
-    currentTime: "0:00",
-    duration: "0:00",
-    animationPercent: 0,
-  });
-
   //styles for input slider
   const trackAnim = {
     transform: `translateX(${songInfo.animationPercent}%)`,
@@ -115,7 +114,9 @@ export default function Player() {
           <img src={currentSong.image} alt="Songimg" />
           <div className="text">
             <h2>{decodeHTML(currentSong.song)}</h2>
-            <h3 className="artist">{decodeHTML(currentSong.singers)}</h3>
+            <h3 className="artist">
+              {decodeHTML(currentSong.primary_artists)}
+            </h3>
           </div>
         </div>
         <div className="time">
@@ -142,7 +143,7 @@ export default function Player() {
         <audio
           ref={audioRef}
           onLoadedMetadata={timeUpdateHandler}
-          src={currentSong.media_url}
+          src={makeMediaurl(currentSong.media_preview_url)}
           autoPlay
           onTimeUpdate={timeUpdateHandler}
         ></audio>
@@ -207,7 +208,7 @@ const StyledPlayer = styled(motion.div)`
       width: 30%;
       justify-content: space-around;
       font-size: 1.4rem;
-      svg{
+      svg {
         cursor: pointer;
       }
     }

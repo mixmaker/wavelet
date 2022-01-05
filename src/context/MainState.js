@@ -2,6 +2,8 @@ import MainContext from "./MainContext";
 import { useState } from "react";
 
 const MainState = (props) => {
+  const [homedata, setHomedata] = useState()
+  const [topSearches, setTopSearches] = useState();
   const [inputVar, setInputVar] = useState(); //get user input
   const [searchedData, setSearchedData] = useState(); //data of searched item
   const [currentSong, setCurrentSong] = useState(); //get details of song
@@ -23,6 +25,10 @@ const MainState = (props) => {
   return (
     <MainContext.Provider
       value={{
+        homedata,
+        setHomedata,
+        topSearches,
+        setTopSearches,
         inputVar,
         setInputVar,
         searchedData,

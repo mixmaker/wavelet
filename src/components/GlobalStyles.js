@@ -1,7 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
-*{
+*, ::before{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -13,14 +13,15 @@ const GlobalStyles = createGlobalStyle`
   background: #f1f1f1;
 }
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: #ee6c4d;
+  border-radius: 14px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #a5533e;
 }
 body{
     //#1f1919
-    background: #131010;
+    background: rgb(19, 16, 16);
     color: #fff;
     display: flex;
     flex-direction: column;

@@ -11,6 +11,7 @@ import styled from "styled-components";
 import { useContext } from "react";
 import MainContext from "../context/MainContext";
 import { makeMediaurl } from "../api";
+import ColorThief from "colorthief";
 
 export default function Player() {
   //contexts
@@ -28,6 +29,7 @@ export default function Player() {
 
   //refs
   const audioRef = useRef(null);
+  const imgRef = useRef(null);
   //event handlers
   const playpauseHandler = () => {
     if (isPlaying) {
@@ -63,7 +65,7 @@ export default function Player() {
     // console.log(duration)
   };
   const timeFormatter = (time) => {
-    if (isNaN(time)) {
+    if (!isNaN(time)) {
       return (
         Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2)
       );
@@ -111,7 +113,19 @@ export default function Player() {
       </div>
       <div className="box">
         <div className="songDetail">
-          <img src={currentSong.image} alt="Songimg" />
+          <img
+            // crossOrigin={"anonymous"}
+            src={currentSong.image}
+            ref={imgRef}
+            alt="Songimg"
+            onLoad={() => {
+              const colorThief = new ColorThief();
+              const img = imgRef.current;
+              console.log(img)
+              const result = colorThief.getColor(img, 25);
+              console.log(result);
+            }}
+          />
           <div className="text">
             <h2>{decodeHTML(currentSong.song)}</h2>
             <h3 className="artist">

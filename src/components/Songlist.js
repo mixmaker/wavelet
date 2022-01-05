@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
+//styles and animations
 import { motion } from "framer-motion";
 import styled from "styled-components";
-import { useContext } from "react";
+//import context
 import MainContext from "../context/MainContext";
+//icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+//api
 import { getDetailsfromId } from "../api";
 
-export default function Songlist({ element, index }) {
-  // console.log(element.id)
+export default function Songlist({ element, index , hoverHandler}) {
   const {
     decodeHTML,
     currentSong,
@@ -46,7 +48,7 @@ export default function Songlist({ element, index }) {
     setProgress(10);
     // getDetails(element.id).then((data) => {
     getDetailsfromId(element.id).then(({ data }) => {
-      console.log(data[element.id]);
+      // console.log(data[element.id]);
       setProgress(60);
       setCurrentSong(data[element.id]);
       setPlaylist([data[element.id]]);
@@ -73,7 +75,7 @@ export default function Songlist({ element, index }) {
   };
 
   return (
-    <SongList>
+    <SongList className="songList">
       <motion.div
         id={`${element.id}`}
         style={selectedStyle()}
@@ -129,11 +131,19 @@ const SongList = styled(motion.div)`
   width: 100%;
   transition: 0.5s;
   overflow: hidden;
+  .mark{
+    position: absolute;
+    top: 0;
+    width: 100% ;
+    height: 100% ;
+    /* background-color: blue; */
+  }
   .overlay {
+    position: relative;
     transition: 0.5s;
-
+    /* pointer-events: none; */
     &:hover {
-      background: #116b64be;
+      background: #53362b;
     }
     border-radius: 10px;
     display: flex;
@@ -152,17 +162,20 @@ const SongList = styled(motion.div)`
       }
     }
     .icons {
+      position: relative;
+
       padding: 0 2rem;
     }
     .pe {
       pointer-events: none;
     }
     .add {
-      cursor: pointer;
-      z-index: 5;
+      /* cursor: pointer; */
+      /* z-index: 5; */
       padding: 0.25rem;
       font-size: 1.5rem;
       border-radius: 5px;
+      transition: .5s;
       &:hover {
         background: #8b68a5f9;
       }

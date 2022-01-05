@@ -22,8 +22,8 @@ function App() {
     <Router>
       <StyledApp className="App">
         <LoadingBar
-          color="#ff4ff3"
-          height={2}
+          color="#EE6C4D"
+          height={3}
           loaderSpeed={800}
           progress={progress}
           onLoaderFinished={() => setProgress(0)}

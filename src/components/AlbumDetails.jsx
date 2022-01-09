@@ -6,14 +6,20 @@ import { getResponse } from "../api";
 import { useLocation } from "react-router-dom";
 
 const AlbumDetails = () => {
-  const { albumdata, setProgress, setPlaylist, setAlbumdata,setCurrentSong, decodeHTML } =
-    useContext(MainContext);
+  const {
+    albumdata,
+    setProgress,
+    setPlaylist,
+    setAlbumdata,
+    setCurrentSong,
+    decodeHTML,
+  } = useContext(MainContext);
   const getAlbumdata = async (type, id) => {
     const albumUrl = albumURL(type, id);
-    setProgress(40)
+    setProgress(40);
     const data = await getResponse(albumUrl);
     setAlbumdata(data);
-    setProgress(100)
+    setProgress(100);
   };
   const location = useLocation();
   useEffect(() => {
@@ -38,7 +44,14 @@ const AlbumDetails = () => {
             <div className="item">
               {albumdata.list.map((song) => {
                 return (
-                  <div className="songitem" key={song.id} onClick={()=>setCurrentSong(song)}>
+                  <div
+                    className="songitem"
+                    key={song.id}
+                    onClick={() => {
+                      setCurrentSong(song);
+                      setisPlaying(true);
+                    }}
+                  >
                     <img src={song.image} alt="" />
                     <div className="details">
                       <h3>{decodeHTML(song.title)}</h3>

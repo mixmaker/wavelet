@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
@@ -25,6 +25,7 @@ export default function Player() {
     setCurrentSong,
     songInfo,
     setSongInfo,
+    decryptByDES,
   } = useContext(MainContext);
 
   //refs
@@ -61,8 +62,6 @@ export default function Player() {
     if (current === duration && playlist[currentIndex + 1]) {
       setCurrentSong(playlist[currentIndex + 1]);
     }
-    // console.log(e)
-    // console.log(duration)
   };
   const timeFormatter = (time) => {
     if (!isNaN(time)) {
@@ -118,18 +117,22 @@ export default function Player() {
             src={currentSong.image}
             ref={imgRef}
             alt="Songimg"
-            onLoad={() => {
-              const colorThief = new ColorThief();
-              const img = imgRef.current;
-              console.log(img)
-              const result = colorThief.getColor(img, 25);
-              console.log(result);
-            }}
+            // onLoad={() => {
+            //   const colorThief = new ColorThief();
+            //   const img = imgRef.current;
+            //   console.log(img);
+            //   const result = colorThief.getColor(img, 25);
+            //   console.log(result);
+            // }}
           />
           <div className="text">
-            <h2>{decodeHTML(currentSong.song)}</h2>
+            <h2>{decodeHTML(currentSong.title)}</h2>
             <h3 className="artist">
-              {decodeHTML(currentSong.primary_artists)}
+              {decodeHTML(
+                currentSong.more_info.artistMap.primary_artists.map(
+                  (element) => " " + element.name
+                )
+              )}
             </h3>
           </div>
         </div>
@@ -157,7 +160,7 @@ export default function Player() {
         <audio
           ref={audioRef}
           onLoadedMetadata={timeUpdateHandler}
-          src={makeMediaurl(currentSong.media_preview_url)}
+          src={decryptByDES(currentSong.more_info.encrypted_media_url)}
           autoPlay
           onTimeUpdate={timeUpdateHandler}
         ></audio>
@@ -169,7 +172,7 @@ export default function Player() {
 const StyledPlayer = styled(motion.div)`
   position: fixed;
   bottom: 0;
-
+  z-index: 100;
   .track {
     width: 100%;
     input {

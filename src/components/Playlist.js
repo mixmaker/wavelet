@@ -33,8 +33,12 @@ const Playlist = () => {
             <div className="details">
               <img src={element.image} alt={decodeHTML(element.song)} />
               <div className="info">
-                <h4>{decodeHTML(element.song)}</h4>
-                <h5 className="artist">{decodeHTML(element.singers)}</h5>
+                <h4>{decodeHTML(element.title)}</h4>
+                <h5 className="artist">{decodeHTML(
+                element.more_info.artistMap.primary_artists.map(
+                  (element) => " " + element.name
+                )
+              )}</h5>
               </div>
             </div>
           </div>
@@ -46,6 +50,7 @@ const Playlist = () => {
 
 const StyledPlaylist = styled.div`
   margin: 2rem;
+  position: relative;
   .main {
     display: flex;
     align-items: center;

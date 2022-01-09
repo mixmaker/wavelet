@@ -35,7 +35,7 @@ body{
     letter-spacing: 1px;
   }
   .left{
-      position: absolute;
+      /* position: absolute; */
       left: 5rem;
       width: calc(100% - 5rem);
   }

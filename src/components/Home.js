@@ -3,86 +3,169 @@ import styled from "styled-components";
 //import context
 import MainContext from "../context/MainContext";
 //api
-import { homeDataURL, topSearchesURL } from "../api/base";
+import { albumURL, homeDataURL, topSearchesURL } from "../api/base";
 import { getResponse } from "../api";
+import { Link } from "react-router-dom";
 
 const Home = () => {
-  const { homedata, setHomedata } = useContext(MainContext);
-  const apiUrl = homeDataURL();
+  const { homedata, setHomedata, setProgress,setAlbumdata } =
+    useContext(MainContext);
+  const homeUrl = homeDataURL();
   useEffect(() => {
     const dataFetcher = async () => {
       try {
-        const data = await getResponse(apiUrl);
+        const data = await getResponse(homeUrl);
+        setProgress(40);
         setHomedata(data);
+        setProgress(100);
       } catch (error) {
-        alert("Something went wrong:" + error);
+        alert("Something went wrong: " + error);
+        setProgress(100);
       }
     };
     dataFetcher();
-  }, [apiUrl]);
+  }, [homeUrl]);
+
+
+  const getAlbumdata = async (type, id) => {
+    const albumUrl = albumURL(type, id);
+    const data = await getResponse(albumUrl);
+    setAlbumdata(data);
+  };
+  // let item;
+  // let marker;
+  // const indicator = (e) => {
+  //   marker.style.left = e.offsetLeft + "px";
+  //   marker.style.width = e.offsetWidth + "px";
+  // };
+  // const getelements = () => {
+  //   item = document.querySelectorAll(".card1");
+  //   marker = document.querySelector(".marker");
+  //   console.log(item)
+  //   console.log(marker)
+  //   console.log("i run")
+  // };
+  // useEffect(() => {
+  //   setProgress(40);
+  //   homedata && setProgress(100);
+  //   homedata && getelements()
+  // }, [homedata]);
+
+  // const fun = () => {
+  //   // if (item === undefined || marker === undefined) {
+  //   //   getelements();
+  //   // }
+  //   // if (item !== undefined && marker !== undefined) {
+  //     item.forEach((link) => {
+  //       link.addEventListener("mouseover", (e) => {
+  //         indicator(e.target);
+  //       });
+  //       link.addEventListener("mouseout", (e) => {
+  //         marker.style.width = 0;
+  //       });
+  //     });
+  //   // }
+  // };
 
   return (
     <StyledHome className="left">
       <h1 className="home">Home</h1>
-      <div className="newTrending">
-        <h2 className="heading">New Trending</h2>
-        <div className="fixed">
-          <div className="wrapper">
-            {homedata &&
-              homedata.new_trending.map((element) => {
-                return (
-                  <div className="card" key={element.id}>
-                    <img src={element.image} alt="img" />
-                    <h3 className="title">{element.title}</h3>
-                    <h4 className="type">{element.type}</h4>
-                  </div>
-                );
-              })}
+      {!homedata && (
+        <div className="loading">
+          <h1>Loading, please wait...</h1>
+        </div>
+      )}
+      {homedata && (
+        <div className="newTrending">
+          <h2 className="heading">New Trending</h2>
+          <div className="fixed">
+            <div className="wrapper">
+              <div className="marker"></div>
+              {homedata &&
+                homedata.new_trending.map((element) => {
+                  return (
+                    <Link to={'/home/'+element.type+'/'+element.id}>
+                    <div
+                      className="card1"
+                      // onMouseOver={() => fun()}
+                      key={element.id}
+                      onClick={() => getAlbumdata(element.type, element.id)}
+                      >
+                      <img src={element.image} alt="img" />
+                      <div className="details">
+                        <h3 className="title">{element.title}</h3>
+                        <h4 className="type">{element.type}</h4>
+                      </div>
+                    </div>
+                      </Link>
+                  );
+                })}
+            </div>
           </div>
         </div>
-      </div>
-      <div className="topPlaylists">
-        <h2 className="heading">Top Playlists</h2>
-        <div className="fixed">
-          <div className="wrapper">
-            {homedata &&
-              homedata.top_playlists.map((element) => {
-                return (
-                  <div className="card" key={element.id}>
-                    <img src={element.image} alt="img" />
-                    <h3 className="title">{element.title}</h3>
-                  </div>
-                );
-              })}
+      )}
+      {homedata && (
+        <div className="topPlaylists">
+          <h2 className="heading">Top Playlists</h2>
+          <div className="fixed">
+            <div className="wrapper">
+              {homedata &&
+                homedata.top_playlists.map((element) => {
+                  return (
+                    <Link to={'/home/'+element.type+'/'+element.id}>
+                    <div className="card2" key={element.id}>
+                      <img src={element.image} alt="img" />
+                      <h3 className="title">{element.title}</h3>
+                    </div>
+                    </Link>
+                  );
+                })}
+            </div>
           </div>
         </div>
-      </div>
-      <div className="newAlbums">
-        <h2 className="heading">New Albums</h2>
-        <div className="fixed">
-          <div className="wrapper">
-            {homedata &&
-              homedata.new_albums.map((element) => {
-                return (
-                  <div className="card" key={element.id}>
-                    <img src={element.image} alt="img" />
-                    <h3 className="title">{element.title}</h3>
-                    <h4 className="type">{element.type}</h4>
-                  </div>
-                );
-              })}
+      )}
+      {homedata && (
+        <div className="newAlbums">
+          <h2 className="heading">New Albums</h2>
+          <div className="fixed">
+            <div className="wrapper">
+              {homedata &&
+                homedata.new_albums.map((element) => {
+                  return (
+                    <Link to={'/home/'+element.type+'/'+element.id}>
+                    <div className="card3" key={element.id}>
+                      <img className="pe" src={element.image} alt="img" />
+                      <h3 className="title pe">{element.title}</h3>
+                      <h4 className="type pe">{element.type}</h4>
+                    </div>
+                    </Link>
+                  );
+                })}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </StyledHome>
   );
 };
 
 const StyledHome = styled.div`
   margin: 2rem;
-
+  min-height: 90vh;
+  position: relative;
+  a{
+    text-decoration: none;
+    color: white;
+  }
+  .loading {
+    position: relative;
+    left: 40%;
+    top: 50%;
+    transform: translateX(-50%, -50%);
+  }
   .newTrending,
-  .topPlaylists ,.newAlbums{
+  .topPlaylists,
+  .newAlbums {
     margin: 4rem 0;
     padding: 1rem;
     position: relative;
@@ -136,28 +219,48 @@ const StyledHome = styled.div`
         }
       }
     }
-    .card {
+    .card1,
+    .card2,
+    .card3 {
       position: relative;
-      display: flex;
+      /* display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      flex-wrap: wrap;
+      justify-content: center; */
       margin: 0 1rem;
       padding: 1rem;
       /* overflow: hidden; */
-      width: 450px;
+      max-width: 250px;
+      height: max-content;
       /* border: 1px solid grey; */
       transition: 0.7s;
-
+      &:hover {
+        background: #ccc;
+        color: black;
+      }
       img {
         height: 200px;
         object-fit: fill;
+        pointer-events: none;
       }
-      &:hover {
-        background-color: #c2c2c2;
-        color: #303030;
+      .details {
+        height: max-content;
+        overflow: hidden;
+        width: 100%;
+        pointer-events: none;
       }
     }
+  }
+  .marker {
+    height: 3rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background-color: #c2c2c2;
+    transition: all 0.5s;
   }
 `;
 

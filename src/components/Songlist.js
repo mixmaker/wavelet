@@ -8,17 +8,19 @@ import MainContext from "../context/MainContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 //api
-import { getDetailsfromId } from "../api";
+// import { getDetailsfromId } from "../api";
 
-export default function Songlist({ element, index , hoverHandler}) {
+export default function Songlist({ element, index, hoverHandler }) {
   const {
     decodeHTML,
     currentSong,
     setCurrentSong,
     setisPlaying,
     setProgress,
+    searchedData,
     playlist,
     setPlaylist,
+    decryptByDES,
   } = useContext(MainContext);
 
   const scaleVariant = {
@@ -44,17 +46,21 @@ export default function Songlist({ element, index , hoverHandler}) {
       }
     }
   };
-  const getAudioHandler = () => {
-    setProgress(10);
-    // getDetails(element.id).then((data) => {
-    getDetailsfromId(element.id).then(({ data }) => {
-      // console.log(data[element.id]);
-      setProgress(60);
-      setCurrentSong(data[element.id]);
-      setPlaylist([data[element.id]]);
-      setisPlaying(true);
-      setProgress(100);
-    });
+  const playSongHandler = () => {
+    setProgress(40);
+    setCurrentSong(searchedData[index]);
+    setisPlaying(true);
+    setProgress(100);
+    // setProgress(10);
+    // // getDetails(element.id).then((data) => {
+    // getDetailsfromId(element.id).then(({ data }) => {
+    //   // console.log(data[element.id]);
+    //   setProgress(60);
+    //   setCurrentSong(data[element.id]);
+    //   setPlaylist([data[element.id]]);
+    //   setisPlaying(true);
+    //   setProgress(100);
+    // });
   };
 
   const addtoPlaylistHandler = () => {
@@ -67,10 +73,7 @@ export default function Songlist({ element, index , hoverHandler}) {
     if (finder(idArr, element.id)) {
       alert("Song already in playlist");
     } else {
-      // getDetails(element.id).then((data) => {
-      getDetailsfromId(element.id).then(({ data }) => {
-        setPlaylist(playlist.concat(data[element.id]));
-      });
+      setPlaylist(playlist.concat(searchedData[index]));
     }
   };
 
@@ -81,7 +84,7 @@ export default function Songlist({ element, index , hoverHandler}) {
         style={selectedStyle()}
         className="overlay"
       >
-        <div className="details" onClick={getAudioHandler}>
+        <div className="details" onClick={() => playSongHandler()}>
           <motion.img
             variants={scaleVariant}
             initial="hidden"
@@ -131,11 +134,11 @@ const SongList = styled(motion.div)`
   width: 100%;
   transition: 0.5s;
   overflow: hidden;
-  .mark{
+  .mark {
     position: absolute;
     top: 0;
-    width: 100% ;
-    height: 100% ;
+    width: 100%;
+    height: 100%;
     /* background-color: blue; */
   }
   .overlay {
@@ -143,7 +146,7 @@ const SongList = styled(motion.div)`
     transition: 0.5s;
     /* pointer-events: none; */
     &:hover {
-      background: #53362b;
+      background: #362119;
     }
     border-radius: 10px;
     display: flex;
@@ -175,7 +178,7 @@ const SongList = styled(motion.div)`
       padding: 0.25rem;
       font-size: 1.5rem;
       border-radius: 5px;
-      transition: .5s;
+      transition: 0.5s;
       &:hover {
         background: #8b68a5f9;
       }

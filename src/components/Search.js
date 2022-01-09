@@ -18,14 +18,15 @@ const Search = () => {
   const songInput = () => {
     setProgress(10);
     const apiUrl = searchResultsURL(inputVar)
-      const run = async () => {
+      const run = async() => {
         try {
-          const data = await getResponse(apiUrl);
+          const data =await getResponse(apiUrl);
           setProgress(60)
-          setSearchedData(data.results);
+          data&&setSearchedData(data.results);
+          data&&console.log(data)
           setProgress(100)
         } catch (error) {
-          alert("Something went wrong");
+          alert(error);
         }
       };
       run();

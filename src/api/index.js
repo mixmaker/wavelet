@@ -1,28 +1,11 @@
 import axios from "axios";
 import { detailsfromIdURL } from "./base";
 
-export const getResponse = (url) =>
-  axios.get(url).then((data) => {
-    // console.log(data)
-    return data.data;
-  });
-
-// export const getResponse = (url, callback, errcallback) => {
-//   axios
-//     .get(url)
-//     .then((data) => {
-//       // console.log(data.data);
-//       if (callback != null) {
-//         callback(data.data);
-//       }
-//       // return data.data;
-//     })
-//     .catch((err) => {
-//       if (errcallback != null) {
-//         errcallback(err);
-//       }
-//     });
-// };
+export const getResponse = (url) => {
+  return axios
+    .get(`https://wavelet-backend.vercel.app/api?q=${encodeURIComponent(url)}`)
+    .then((data) => data.data);
+};
 
 export const makeMediaurl = (url) => {
   return url
@@ -40,6 +23,6 @@ export const makeMediaurl = (url) => {
 //   return data;
 // };
 
-export const getDetailsfromId = (id) => {
-  return axios.get(detailsfromIdURL(id));
-};
+// export const getDetailsfromId = (id) => {
+//   return axios.get(detailsfromIdURL(id));
+// };

@@ -50,6 +50,7 @@ export default function Songlist({ element, index, hoverHandler }) {
     setProgress(40);
     setCurrentSong(searchedData[index]);
     setisPlaying(true);
+    setPlaylist(searchedData[index])
     setProgress(100);
     // setProgress(10);
     // // getDetails(element.id).then((data) => {

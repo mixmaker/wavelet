@@ -30,6 +30,7 @@ function App() {
       setCurrentSong(playlist[0]);
       setisPlaying(true);
     }
+    // eslint-disable-next-line
   }, [playlist]);
   return (
     <Router>

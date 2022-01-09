@@ -19,7 +19,7 @@ const AlbumDetails = () => {
   useEffect(() => {
     const locArr = location.pathname.split("/");
     getAlbumdata(locArr[2], locArr[3]);
-    // console.log(locArr);
+    // eslint-disable-next-line
   }, [location]);
 
   return (

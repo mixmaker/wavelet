@@ -20,7 +20,6 @@ export default function Songlist({ element, index, hoverHandler }) {
     searchedData,
     playlist,
     setPlaylist,
-    decryptByDES,
   } = useContext(MainContext);
 
   const scaleVariant = {

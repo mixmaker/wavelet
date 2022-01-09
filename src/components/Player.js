@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
@@ -10,8 +10,8 @@ import { motion } from "framer-motion";
 import styled from "styled-components";
 import { useContext } from "react";
 import MainContext from "../context/MainContext";
-import { makeMediaurl } from "../api";
-import ColorThief from "colorthief";
+// import { makeMediaurl } from "../api";
+// import ColorThief from "colorthief";
 
 export default function Player() {
   //contexts
@@ -42,7 +42,8 @@ export default function Player() {
     }
   };
   //get the index in playlist of which song is playing
-  let currentIndex = playlist.findIndex((id) => currentSong.id === id.id);
+  let currentIndex 
+  // = playlist.findIndex((id) => currentSong.id === id.id);
 
   const timeUpdateHandler = (e) => {
     const current = e.target.currentTime;

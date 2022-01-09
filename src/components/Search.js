@@ -22,8 +22,7 @@ const Search = () => {
         try {
           const data =await getResponse(apiUrl);
           setProgress(60)
-          data&&setSearchedData(data.results);
-          data&&console.log(data)
+          setSearchedData(data.results);
           setProgress(100)
         } catch (error) {
           alert(error);

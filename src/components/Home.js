@@ -3,7 +3,7 @@ import styled from "styled-components";
 //import context
 import MainContext from "../context/MainContext";
 //api
-import { albumURL, homeDataURL, topSearchesURL } from "../api/base";
+import { albumURL, homeDataURL } from "../api/base";
 import { getResponse } from "../api";
 import { Link } from "react-router-dom";
 
@@ -24,6 +24,7 @@ const Home = () => {
       }
     };
     dataFetcher();
+        // eslint-disable-next-line
   }, [homeUrl]);
 
 

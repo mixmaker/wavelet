@@ -1,5 +1,4 @@
 import axios from "axios";
-import { detailsfromIdURL } from "./base";
 
 export const getResponse = (url) => {
   return axios

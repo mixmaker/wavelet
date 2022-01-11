@@ -185,7 +185,7 @@ const StyledHome = styled.div`
         top: 0;
         margin: 0;
         left: 0;
-        width: 5%;
+        width: 7%;
         height: 100%;
         background: linear-gradient(
           to right,

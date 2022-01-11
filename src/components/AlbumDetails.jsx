@@ -13,6 +13,7 @@ const AlbumDetails = () => {
     setAlbumdata,
     setCurrentSong,
     decodeHTML,
+    setisPlaying,
   } = useContext(MainContext);
   const getAlbumdata = async (type, id) => {
     const albumUrl = albumURL(type, id);
@@ -26,8 +27,10 @@ const AlbumDetails = () => {
     const locArr = location.pathname.split("/");
     getAlbumdata(locArr[2], locArr[3]);
     // eslint-disable-next-line
+    window.onbeforeunload = function () {
+      window.scrollTo(0, 0);
+    };
   }, [location]);
-
   return (
     <StyledAlbumDetails className="left">
       {albumdata && (

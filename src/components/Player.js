@@ -48,7 +48,7 @@ export default function Player() {
   const timeUpdateHandler = (e) => {
     const current = e.target.currentTime;
     const duration = e.target.duration;
-    const anim = Math.round((current / duration) * 100);
+    const anim = ((current / duration) * 100);
     setSongInfo({
       ...songInfo,
       currentTime: current,
@@ -202,7 +202,6 @@ const StyledPlayer = styled(motion.div)`
       #181138 17.77%,
       #020112 49.48%
     );
-    /* padding-bottom: 1rem; */
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -231,48 +230,9 @@ const StyledPlayer = styled(motion.div)`
       }
     }
   }
-  /* position: fixed;
-  bottom: 0;
-  left: 5rem;
-  display: flex;
-  align-items: center;
-  padding: 0.75rem 5rem;
-  background: linear-gradient(
-    160deg,
-    #241e3a 7.94%,
-    #181138 17.77%,
-    #020112 49.48%
-  );
-  color: white;
-  width: 100%;
-  .songDetail {
-    display: flex;
-    align-items: center;
-
-    width: 40%;
-
-    img {
-      height: 80px;
-    }
-    .text {
-      padding: 0 2rem;
-      h3 {
-        color: #c2c2c2;
-      }
-    }
-  }
-  .time-control {
-    display: flex;
-    align-items: center;
-    width: 40%;
-    p {
-      width: 3rem;
-      margin: 0 1rem;
-      text-align: center;
-    }
     .track {
       width: 100%;
-      height: 0.75rem;
+      height: 0.15rem;
       background: #30e3ca;
       position: relative;
       overflow: hidden;
@@ -286,12 +246,12 @@ const StyledPlayer = styled(motion.div)`
           outline: none;
         }
       }
-      input[type="range"]::-webkit-slider-thumb {
+      /* input[type="range"]::-webkit-slider-thumb {
         -webkit-appearance: none;
         height: 0.75rem;
         width: 0.75rem;
         cursor: pointer;
-      }
+      } */
       .animate-track {
         background: rgb(107, 107, 107);
         width: 100%;
@@ -302,18 +262,4 @@ const StyledPlayer = styled(motion.div)`
         pointer-events: none;
       }
     }
-  }
-  .play-control {
-    width: 30%;
-    align-items: center;
-    display: flex;
-    justify-content: space-around;
-    font-size: 1.5rem;
-
-    .play,
-    .skip-forward,
-    .skip-back {
-      cursor: pointer;
-    }
-  } */
 `;

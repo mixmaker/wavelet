@@ -23,17 +23,19 @@ const AlbumDetails = () => {
     setProgress(100);
   };
   const location = useLocation();
+  const locArr = location.pathname.split("/");
   useEffect(() => {
-    const locArr = location.pathname.split("/");
-    getAlbumdata(locArr[2], locArr[3]);
-    // eslint-disable-next-line
+    if ((albumdata && albumdata.id !== locArr[3]) || !albumdata) {
+      getAlbumdata(locArr[2], locArr[3]);
+    }
     window.onbeforeunload = function () {
       window.scrollTo(0, 0);
     };
+    // eslint-disable-next-line
   }, [location]);
   return (
     <StyledAlbumDetails className="left">
-      {albumdata && (
+      {albumdata && albumdata.id === locArr[3] && (
         <>
           <div className="image">
             <img src={albumdata.image.replace("150x150", "500x500")} alt="" />
@@ -139,6 +141,7 @@ const StyledAlbumDetails = styled.div`
     height: 100vh;
     .main {
       position: relative;
+      width: 100%;
       padding: 0 4rem;
       padding-bottom: 3rem;
       padding-top: 60%;

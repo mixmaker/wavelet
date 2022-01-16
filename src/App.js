@@ -49,6 +49,7 @@ function App() {
           <Route exact path="/" element={<Intro />} />
           <Route exact path="/home" element={<Home />} />
           <Route exact path="/home/album/:id" element={<AlbumDetails />} />
+          <Route exact path="/home/song/:id" element={<Home />} />
           <Route exact path="/home/playlist/:id" element={<AlbumDetails />} />
           <Route exact path="/search" element={<Search />} />
           <Route exact path="/playlists" element={<Playlist />} />

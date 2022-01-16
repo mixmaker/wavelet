@@ -8,7 +8,7 @@ import { getResponse } from "../api";
 import { Link } from "react-router-dom";
 
 const Home = () => {
-  const { homedata, setHomedata, setProgress,setAlbumdata } =
+  const { homedata, setHomedata, setProgress, setAlbumdata, setCurrentSong, setisPlaying } =
     useContext(MainContext);
   const homeUrl = homeDataURL();
   useEffect(() => {
@@ -24,14 +24,18 @@ const Home = () => {
       }
     };
     dataFetcher();
-        // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [homeUrl]);
-
 
   const getAlbumdata = async (type, id) => {
     const albumUrl = albumURL(type, id);
     const data = await getResponse(albumUrl);
-    setAlbumdata(data);
+    if(type==='album'|| 'playlist'){
+      setAlbumdata(data);
+    }if(type==='song'){
+      setCurrentSong(data.songs[0]);
+      setisPlaying(true)
+    }
   };
   // let item;
   // let marker;
@@ -85,20 +89,24 @@ const Home = () => {
               {homedata &&
                 homedata.new_trending.map((element) => {
                   return (
-                    <Link to={'/home/'+element.type+'/'+element.id}>
-                    <div
-                      className="card1"
-                      // onMouseOver={() => fun()}
-                      key={element.id}
-                      onClick={() => getAlbumdata(element.type, element.id)}
+                    <Link to={"/home/" + element.type + "/" + element.id}>
+                      <div
+                        className="card1"
+                        // onMouseOver={() => fun()}
+                        key={element.id}
+                        onClick={() => {
+                          setProgress(40);
+                          getAlbumdata(element.type, element.id);
+                          setProgress(100);
+                        }}
                       >
-                      <img src={element.image} alt="img" />
-                      <div className="details">
-                        <h3 className="title">{element.title}</h3>
-                        <h4 className="type">{element.type}</h4>
+                        <img src={element.image} alt="img" />
+                        <div className="details">
+                          <h3 className="title">{element.title}</h3>
+                          <h4 className="type">{element.type}</h4>
+                        </div>
                       </div>
-                    </div>
-                      </Link>
+                    </Link>
                   );
                 })}
             </div>
@@ -113,11 +121,21 @@ const Home = () => {
               {homedata &&
                 homedata.top_playlists.map((element) => {
                   return (
-                    <Link to={'/home/'+element.type+'/'+element.id}>
-                    <div className="card2" key={element.id}>
-                      <img src={element.image} alt="img" />
-                      <h3 className="title">{element.title}</h3>
-                    </div>
+                    <Link to={"/home/" + element.type + "/" + element.id}>
+                      <div
+                        className="card2"
+                        key={element.id}
+                        onClick={() => {
+                          setProgress(40);
+                          getAlbumdata(element.type, element.id);
+                          setProgress(100);
+                        }}
+                      >
+                        <img src={element.image} alt="img" />
+                        <div className="details">
+                          <h3 className="title">{element.title}</h3>
+                        </div>
+                      </div>
                     </Link>
                   );
                 })}
@@ -133,12 +151,22 @@ const Home = () => {
               {homedata &&
                 homedata.new_albums.map((element) => {
                   return (
-                    <Link to={'/home/'+element.type+'/'+element.id}>
-                    <div className="card3" key={element.id}>
-                      <img className="pe" src={element.image} alt="img" />
-                      <h3 className="title pe">{element.title}</h3>
-                      <h4 className="type pe">{element.type}</h4>
-                    </div>
+                    <Link to={"/home/" + element.type + "/" + element.id}>
+                      <div
+                        className="card3"
+                        key={element.id}
+                        onClick={() => {
+                          setProgress(40);
+                          getAlbumdata(element.type, element.id);
+                          setProgress(100);
+                        }}
+                      >
+                        <img className="pe" src={element.image} alt="img" />
+                        <div className="details">
+                          <h3 className="title pe">{element.title}</h3>
+                          <h4 className="type pe">{element.type}</h4>
+                        </div>
+                      </div>
                     </Link>
                   );
                 })}
@@ -154,7 +182,7 @@ const StyledHome = styled.div`
   margin: 2rem;
   min-height: 90vh;
   position: relative;
-  a{
+  a {
     text-decoration: none;
     color: white;
   }
@@ -244,6 +272,11 @@ const StyledHome = styled.div`
         height: 200px;
         object-fit: fill;
         pointer-events: none;
+      }
+      h3 {
+        width: 100%;
+        word-wrap: break-word;
+        /* overflow: wrap; */
       }
       .details {
         height: max-content;

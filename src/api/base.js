@@ -39,5 +39,8 @@ export const albumURL = (type, id) => {
   if (type === "album") {
     params = `${endpoints.albumDetails}&cc=in&albumid=${id}`;
   }
+  if (type === "song") {
+    params = `pids=${id}&${endpoints.songDetails}`;
+  }
   return getURL(params);
 };

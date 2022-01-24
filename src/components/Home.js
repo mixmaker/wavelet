@@ -238,12 +238,13 @@ const StyledHome = styled.div`
         );
       }
       .wrapper {
+        scrollbar-width: none; // firefox compatible
         padding: 0 2rem;
         position: relative;
         display: flex;
         overflow: auto;
         white-space: nowrap;
-        ::-webkit-scrollbar {
+        ::-webkit-scrollbar { //chrome and edge compatible
           display: none;
         }
       }

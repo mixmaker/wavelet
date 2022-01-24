@@ -21,6 +21,8 @@ const GlobalStyles = createGlobalStyle`
 }
 body{
     //#1f1919
+    scrollbar-width: thin;
+    scrollbar-color: #ee6c4d #f1f1f1;
     background: rgb(19, 16, 16);
     color: #fff;
     display: flex;

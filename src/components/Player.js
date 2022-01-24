@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPlay,
@@ -34,21 +34,20 @@ export default function Player() {
   //event handlers
   const playpauseHandler = () => {
     if (isPlaying) {
-      audioRef.current.pause();
       setisPlaying(!isPlaying);
+      fadeInOut("pause");
     } else {
-      audioRef.current.play();
       setisPlaying(!isPlaying);
+      fadeInOut("play");
     }
   };
   //get the index in playlist of which song is playing
-  let currentIndex 
-  // = playlist.findIndex((id) => currentSong.id === id.id);
+  let currentIndex = playlist.findIndex((id) => currentSong.id === id.id);
 
   const timeUpdateHandler = (e) => {
     const current = e.target.currentTime;
     const duration = e.target.duration;
-    const anim = ((current / duration) * 100);
+    const anim = (current / duration) * 100;
     setSongInfo({
       ...songInfo,
       currentTime: current,
@@ -95,6 +94,42 @@ export default function Player() {
     transform: `translateX(${songInfo.animationPercent}%)`,
   };
 
+  //prevent clicking again when smooth fading
+  const [cursorstate, setCursorstate] = useState({ cursor: "pointer" });
+  //smoothfade on play pause
+  const fadeInOut = (direction) => {
+    var newvol;
+    setCursorstate({ pointerEvents: "none" });
+    if (direction === "pause") {
+      var pauseInt = setInterval(() => {
+        // if (vol > 0) {
+        newvol = audioRef.current.volume;
+        newvol -= 0.1;
+        audioRef.current.volume = Math.round(newvol * 10) / 10;
+        // }
+        if (audioRef.current.volume === 0) {
+          clearInterval(pauseInt);
+          audioRef.current.pause();
+          setCursorstate({ cursor: "pointer" });
+        }
+      }, 100);
+    }
+    if (direction === "play") {
+      audioRef.current.volume = 0;
+      newvol = 0;
+      audioRef.current.play();
+      var playInt = setInterval(() => {
+        // if (vol > 0) {
+        newvol += 0.1;
+        audioRef.current.volume = Math.round(newvol * 10) / 10;
+        // }
+        if (audioRef.current.volume === 1) {
+          clearInterval(playInt);
+          setCursorstate({ cursor: "pointer" });
+        }
+      }, 100);
+    }
+  };
   return (
     <StyledPlayer
       initial={{ y: 100 }}
@@ -150,6 +185,7 @@ export default function Player() {
           <FontAwesomeIcon
             className="play"
             onClick={playpauseHandler}
+            style={cursorstate}
             icon={isPlaying ? faPause : faPlay}
           />
           <FontAwesomeIcon
@@ -225,41 +261,49 @@ const StyledPlayer = styled(motion.div)`
       width: 30%;
       justify-content: space-around;
       font-size: 1.4rem;
-      svg {
+      .skip-back,
+      .skip-forward {
         cursor: pointer;
       }
     }
   }
-    .track {
+  .track {
+    width: 100%;
+    height: 0.25rem;
+    background: #30e3ca;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    input {
       width: 100%;
-      height: 0.15rem;
-      background: #30e3ca;
-      position: relative;
-      overflow: hidden;
-      border-radius: 1rem;
+      height: 100%;
+      position: absolute;
       cursor: pointer;
-      input {
-        width: 100%;
-        -webkit-appearance: none;
-        background: transparent;
-        &:focus {
-          outline: none;
-        }
-      }
-      /* input[type="range"]::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        height: 0.75rem;
-        width: 0.75rem;
-        cursor: pointer;
-      } */
-      .animate-track {
-        background: rgb(107, 107, 107);
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        pointer-events: none;
+      top: 0;
+      -webkit-appearance: none;
+      background: transparent;
+      &:focus {
+        outline: none;
       }
     }
+    input[type="range"]::-moz-range-thumb {
+      -webkit-appearance: none;
+      height: 1rem;
+      width: 1rem;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 1rem;
+      width: 1rem;
+    }
+    .animate-track {
+      background: rgb(107, 107, 107);
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+  }
 `;

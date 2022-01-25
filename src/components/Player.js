@@ -147,16 +147,15 @@ export default function Player() {
   // }, [currentSong]);
   const playerRef = useRef(null);
   const boxRef = useRef(null);
+  // eslint-disable-next-line
   var prevScrollpos = window.pageYOffset;
   window.onscroll = function () {
-    // console.log(prevScrollpos);
     var currentScrollPos = window.pageYOffset;
-    // console.log(currentScrollPos);
     if (currentScrollPos > 100) {
       playerRef.current.style.cssText =
         " bottom: -100px; margin: 0; width:100%;";
       boxRef.current.style.visibility = "hidden";
-    }  else {
+    } else {
       playerRef.current.style.cssText =
         " bottom: 0; margin: 0.5rem; width:90%;";
       boxRef.current.style.visibility = "visible";
@@ -247,7 +246,7 @@ export default function Player() {
     </StyledPlayer>
   );
 }
-const StyledPlay = styled.div`
+/*const StyledPlay = styled.div`
   position: relative;
   width: 20px;
   height: 10px;
@@ -282,9 +281,9 @@ const StyledPlay = styled.div`
     .line2 {
       transform: translateX();
       width: 0;
-    } */
+    } 
   }
-`;
+`;*/
 const StyledPlayer = styled(motion.div)`
   position: fixed;
   bottom: 0;

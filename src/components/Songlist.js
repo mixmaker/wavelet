@@ -7,6 +7,7 @@ import MainContext from "../context/MainContext";
 //icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 //api
 // import { getDetailsfromId } from "../api";
 
@@ -45,11 +46,18 @@ export default function Songlist({ element, index, hoverHandler }) {
       }
     }
   };
-  const playSongHandler = () => {
+  const playSongHandler = async () => {
     setProgress(40);
-    setCurrentSong(searchedData[index]);
+    const { data } = await axios.get(
+      `https://wavelet-backend.vercel.app/api/getdatauri?imgurl=${encodeURIComponent(
+        searchedData[index].image
+      )}`
+    );
+    const newSongdata = { ...searchedData[index], image: data.uri };
+    setCurrentSong(newSongdata);
+    // setCurrentSong(searchedData[index]);
     setisPlaying(true);
-    setPlaylist([searchedData[index]])
+    setPlaylist([newSongdata]);
     setProgress(100);
     // setProgress(10);
     // // getDetails(element.id).then((data) => {
@@ -146,7 +154,12 @@ const SongList = styled(motion.div)`
     transition: 0.5s;
     /* pointer-events: none; */
     &:hover {
-      background: #362119;
+      background: linear-gradient(
+        135deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        rgba(231, 231, 231, 0.233) 100%
+      );
     }
     border-radius: 10px;
     display: flex;
@@ -158,7 +171,7 @@ const SongList = styled(motion.div)`
       cursor: pointer;
       padding: 0.5rem;
       display: flex;
-      min-width: 50%;
+      width: 90%;
       img {
         height: 70px;
         border-radius: 14px;
@@ -166,7 +179,7 @@ const SongList = styled(motion.div)`
     }
     .icons {
       position: relative;
-
+      width: 10%;
       padding: 0 2rem;
     }
     .pe {
@@ -180,7 +193,7 @@ const SongList = styled(motion.div)`
       border-radius: 5px;
       transition: 0.5s;
       &:hover {
-        background: #8b68a5f9;
+        background: rgba(255, 255, 255, 0.2);
       }
     }
     .info {

@@ -4,6 +4,7 @@ import MainContext from "../context/MainContext";
 import { albumURL } from "../api/base";
 import { getResponse } from "../api";
 import { useLocation } from "react-router-dom";
+import axios from "axios";
 
 const AlbumDetails = () => {
   const {
@@ -52,9 +53,19 @@ const AlbumDetails = () => {
                   <div
                     className="songitem"
                     key={song.id}
-                    onClick={() => {
-                      setCurrentSong(song);
+                    onClick={async() => {
+                      const { data } = await axios.get(
+                        `https://wavelet-backend.vercel.app/api/getdatauri?imgurl=${encodeURIComponent(
+                          song.image
+                        )}`
+                      );
+                      const newSongdata = {
+                        ...song,
+                        image: data.uri,
+                      };
+                      setCurrentSong(newSongdata);
                       setisPlaying(true);
+                      setPlaylist([newSongdata]);
                     }}
                   >
                     <img src={song.image} alt="" />

@@ -98,7 +98,7 @@ const Search = () => {
 
 const StyledSearch = styled(motion.div)`
   margin: 1rem 5vw;
-  padding-bottom: 8rem;
+  /* padding-bottom: 8rem; */
   width: 75vw;
   display: flex;
   flex-direction: column;

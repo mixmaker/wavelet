@@ -17,28 +17,48 @@ export default function Nav() {
   const pageloadingHandler = () => {
     setProgress(40);
     setTimeout(() => {
-      setProgress(100)
+      setProgress(100);
     }, 40);
   };
   return (
     <StyledNav>
       <div className="menu-items">
-        <NavLink onClick={()=> pageloadingHandler()} to="/home" activeClassName="active">
+        <NavLink
+          className={({ isActive }) => (isActive ? " active" : "")}
+          onClick={() => pageloadingHandler()}
+          to="/home"
+          // activeClassName="active"
+        >
           <div className="wrapper">
             <FontAwesomeIcon icon={faHome} />
           </div>
         </NavLink>
-        <NavLink onClick={()=> pageloadingHandler()} to="/search" activeClassName="active">
+        <NavLink
+          className={({ isActive }) => (isActive ? " active" : "")}
+          onClick={() => pageloadingHandler()}
+          to="/search"
+          // activeClassName="active"
+        >
           <div className="wrapper">
             <FontAwesomeIcon icon={faSearch} />
           </div>
         </NavLink>
-        <NavLink onClick={()=> pageloadingHandler()} to="/playlists" activeClassName="active">
+        <NavLink
+          className={({ isActive }) => (isActive ? " active" : "")}
+          onClick={() => pageloadingHandler()}
+          to="/playlists"
+          // activeClassName="active"
+        >
           <div className="wrapper">
             <FontAwesomeIcon icon={faList} />
           </div>
         </NavLink>
-        <NavLink onClick={()=> pageloadingHandler()} to="/player" activeClassName="active">
+        <NavLink
+          className={({ isActive }) => (isActive ? " active" : "")}
+          onClick={() => pageloadingHandler()}
+          to="/player"
+          // activeClassName="active"
+        >
           <div className="wrapper">
             <FontAwesomeIcon icon={faMusic} />
           </div>
@@ -53,8 +73,15 @@ const StyledNav = styled.div`
   position: fixed;
   z-index: 5;
   font-family: "Comfortaa", cursive;
-  background: #161616;
-  height: 100vh;
+  /* background: #161616; */
+  background: linear-gradient(
+    135deg,
+    rgba(151, 151, 151, 0.1),
+    rgba(78, 78, 78, 0.2)
+  );
+  margin: 0.5rem;
+  height: 98%;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -67,12 +94,14 @@ const StyledNav = styled.div`
     width: calc(5rem-1px);
 
     .active {
-      border-right: 1px solid #fff;
+      /* border-right: 1px solid #fff; */
+      filter: drop-shadow(1px 2px 4px rgb(202, 156, 233));
+      -webkit-filter: drop-shadow(1px 2px 4px rgb(202, 156, 233));
       color: #fff;
     }
     a {
       box-sizing: content-box;
-      color: #acacac;
+      color: #919191;
       margin: 1rem 0;
       height: 2.5rem;
       display: flex;

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect , useRef} from "react";
 import styled from "styled-components";
 //import context
 import MainContext from "../context/MainContext";
@@ -8,8 +8,14 @@ import { getResponse } from "../api";
 import { Link } from "react-router-dom";
 
 const Home = () => {
-  const { homedata, setHomedata, setProgress, setAlbumdata, setCurrentSong, setisPlaying } =
-    useContext(MainContext);
+  const {
+    homedata,
+    setHomedata,
+    setProgress,
+    setAlbumdata,
+    setCurrentSong,
+    setisPlaying,
+  } = useContext(MainContext);
   const homeUrl = homeDataURL();
   useEffect(() => {
     const dataFetcher = async () => {
@@ -30,30 +36,29 @@ const Home = () => {
   const getAlbumdata = async (type, id) => {
     const albumUrl = albumURL(type, id);
     const data = await getResponse(albumUrl);
-    if(type==='album'|| 'playlist'){
+    if (type === "album" || "playlist") {
       setAlbumdata(data);
-    }if(type==='song'){
+    }
+    if (type === "song") {
       setCurrentSong(data.songs[0]);
-      setisPlaying(true)
+      setisPlaying(true);
     }
   };
   // let item;
   // let marker;
   // const indicator = (e) => {
-  //   marker.style.left = e.offsetLeft + "px";
-  //   marker.style.width = e.offsetWidth + "px";
+  //   console.log(itemRef.current);
+  //   markerRef.current.style.left = e.offsetLeft + "px";
+  //   markerRef.current.style.width = e.offsetWidth + "px";
   // };
   // const getelements = () => {
-  //   item = document.querySelectorAll(".card1");
-  //   marker = document.querySelector(".marker");
-  //   console.log(item)
-  //   console.log(marker)
-  //   console.log("i run")
+  //   // item = document.querySelectorAll(".card1");
+  //   // marker = document.querySelector(".marker");
+
   // };
+  // const markerRef = useRef(null);
+  // const itemRef = useRef(null);
   // useEffect(() => {
-  //   setProgress(40);
-  //   homedata && setProgress(100);
-  //   homedata && getelements()
   // }, [homedata]);
 
   // const fun = () => {
@@ -61,12 +66,12 @@ const Home = () => {
   //   //   getelements();
   //   // }
   //   // if (item !== undefined && marker !== undefined) {
-  //     item.forEach((link) => {
+  //     itemRef.forEach((link) => {
   //       link.addEventListener("mouseover", (e) => {
   //         indicator(e.target);
   //       });
   //       link.addEventListener("mouseout", (e) => {
-  //         marker.style.width = 0;
+  //         markerRef.style.width = 0;
   //       });
   //     });
   //   // }
@@ -85,15 +90,18 @@ const Home = () => {
           <h2 className="heading">New Trending</h2>
           <div className="fixed">
             <div className="wrapper">
-              <div className="marker"></div>
+              <div className="marker" ></div>
               {homedata &&
                 homedata.new_trending.map((element) => {
                   return (
-                    <Link to={"/home/" + element.type + "/" + element.id}>
+                    <Link
+                      to={"/home/" + element.type + "/" + element.id}
+                      key={element.id}
+                    >
                       <div
                         className="card1"
-                        // onMouseOver={() => fun()}
-                        key={element.id}
+                        // onMouseOver={(e)=> indicator(e)}
+                        // ref={itemRef}
                         onClick={() => {
                           setProgress(40);
                           getAlbumdata(element.type, element.id);
@@ -121,10 +129,12 @@ const Home = () => {
               {homedata &&
                 homedata.top_playlists.map((element) => {
                   return (
-                    <Link to={"/home/" + element.type + "/" + element.id}>
+                    <Link
+                      to={"/home/" + element.type + "/" + element.id}
+                      key={element.id}
+                    >
                       <div
                         className="card2"
-                        key={element.id}
                         onClick={() => {
                           setProgress(40);
                           getAlbumdata(element.type, element.id);
@@ -151,17 +161,24 @@ const Home = () => {
               {homedata &&
                 homedata.new_albums.map((element) => {
                   return (
-                    <Link to={"/home/" + element.type + "/" + element.id}>
+                    <Link
+                      to={"/home/" + element.type + "/" + element.id}
+                      key={element.id}
+                    >
                       <div
                         className="card3"
-                        key={element.id}
                         onClick={() => {
                           setProgress(40);
                           getAlbumdata(element.type, element.id);
                           setProgress(100);
                         }}
                       >
-                        <img className="pe" src={element.image} alt="img" />
+                        <img
+                          className="pe"
+                          src={element.image}
+                          alt="img"
+                          loading="lazy"
+                        />
                         <div className="details">
                           <h3 className="title pe">{element.title}</h3>
                           <h4 className="type pe">{element.type}</h4>
@@ -180,7 +197,7 @@ const Home = () => {
 
 const StyledHome = styled.div`
   margin: 2rem;
-  min-height: 90vh;
+  height: 100vh;
   position: relative;
   a {
     text-decoration: none;
@@ -244,7 +261,8 @@ const StyledHome = styled.div`
         display: flex;
         overflow: auto;
         white-space: nowrap;
-        ::-webkit-scrollbar { //chrome and edge compatible
+        ::-webkit-scrollbar {
+          //chrome and edge compatible
           display: none;
         }
       }
@@ -262,13 +280,36 @@ const StyledHome = styled.div`
       padding: 1rem;
       /* overflow: hidden; */
       max-width: 250px;
-      height: max-content;
-      /* border: 1px solid grey; */
-      transition: 0.7s;
+      height: 100%;
+      z-index: 100;
+      transition: 0.5s;
       &:hover {
-        background: #ccc;
-        color: black;
+        transform: scale(1.02);
+        background: rgba(70,74,87,1);
       }
+      /* &::before {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        transition: 0.5s;
+        z-index: -2;
+        /* opacity: 0; 
+        transform: scale(0);
+      }
+      &:hover::before {
+        background: linear-gradient(
+          135deg,
+          rgba(207, 193, 245, 0.353),
+          rgba(91, 132, 221, 0.625)
+        );
+        /* background-color: blue; 
+        transform: scale(1);
+        /* opacity: 1; 
+      } */
       img {
         height: 200px;
         object-fit: fill;
@@ -300,3 +341,8 @@ const StyledHome = styled.div`
 `;
 
 export default Home;
+// background: linear-gradient(
+//   135deg,
+//   rgba(207, 193, 245, 0.353),
+//   rgba(91, 132, 221, 0.625)
+// );

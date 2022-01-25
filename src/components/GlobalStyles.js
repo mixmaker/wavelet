@@ -23,7 +23,7 @@ body{
     //#1f1919
     scrollbar-width: thin;
     scrollbar-color: #ee6c4d #f1f1f1;
-    background: rgb(19, 16, 16);
+    background-color: rgb(19, 16, 16);
     color: #fff;
     display: flex;
     flex-direction: column;
@@ -38,8 +38,8 @@ body{
   }
   .left{
       /* position: absolute; */
-      left: 5rem;
-      width: calc(100% - 5rem);
+      left: 5.5rem;
+      width: calc(100% - 5.5rem);
   }
 `;
 export default GlobalStyles;

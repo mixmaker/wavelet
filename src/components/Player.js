@@ -94,19 +94,20 @@ export default function Player() {
     transform: `translateX(${songInfo.animationPercent}%)`,
   };
 
-  //prevent clicking again when smooth fading
+  //prevent clicking play/pause again when smooth fading
   const [cursorstate, setCursorstate] = useState({ cursor: "pointer" });
   //smoothfade on play pause
   const fadeInOut = (direction) => {
     var newvol;
     setCursorstate({ pointerEvents: "none" });
     if (direction === "pause") {
+      newvol = audioRef.current.volume;
       var pauseInt = setInterval(() => {
-        // if (vol > 0) {
-        newvol = audioRef.current.volume;
-        newvol -= 0.1;
-        audioRef.current.volume = Math.round(newvol * 10) / 10;
-        // }
+        if (newvol > 0) {
+          newvol = audioRef.current.volume;
+          newvol -= 0.1;
+          audioRef.current.volume = Math.round(newvol * 10) / 10;
+        }
         if (audioRef.current.volume === 0) {
           clearInterval(pauseInt);
           audioRef.current.pause();
@@ -119,10 +120,10 @@ export default function Player() {
       newvol = 0;
       audioRef.current.play();
       var playInt = setInterval(() => {
-        // if (vol > 0) {
-        newvol += 0.1;
-        audioRef.current.volume = Math.round(newvol * 10) / 10;
-        // }
+        if (newvol < 1) {
+          newvol += 0.1;
+          audioRef.current.volume = Math.round(newvol * 10) / 10;
+        }
         if (audioRef.current.volume === 1) {
           clearInterval(playInt);
           setCursorstate({ cursor: "pointer" });
@@ -130,11 +131,44 @@ export default function Player() {
       }, 100);
     }
   };
+  // useEffect(() => {
+  //   const getEncodedUri = async (imgurl) => {
+  //     const { data } = await axios.get(
+  //       `https://wavelet-backend.vercel.app/api/getdatauri?imgurl=${encodeURIComponent(
+  //         imgurl
+  //       )}`
+  //     );
+  //     console.log(data.uri);
+  //     setCurrentSong({ ...currentSong, image: data.uri });
+  //   };
+  //   if (currentSong.image.split(":")[0] !== "data") {
+  //     getEncodedUri(currentSong.image);
+  //   }
+  // }, [currentSong]);
+  const playerRef = useRef(null);
+  const boxRef = useRef(null);
+  var prevScrollpos = window.pageYOffset;
+  window.onscroll = function () {
+    // console.log(prevScrollpos);
+    var currentScrollPos = window.pageYOffset;
+    // console.log(currentScrollPos);
+    if (currentScrollPos > 100) {
+      playerRef.current.style.cssText =
+        " bottom: -100px; margin: 0; width:100%;";
+      boxRef.current.style.visibility = "hidden";
+    }  else {
+      playerRef.current.style.cssText =
+        " bottom: 0; margin: 0.5rem; width:90%;";
+      boxRef.current.style.visibility = "visible";
+    }
+    prevScrollpos = currentScrollPos;
+  };
   return (
     <StyledPlayer
       initial={{ y: 100 }}
       animate={{ y: 0, transition: { duration: 0.5 } }}
       className="left"
+      ref={playerRef}
     >
       <div className="track">
         <input
@@ -146,7 +180,7 @@ export default function Player() {
         />
         <div className="animate-track" style={trackAnim}></div>
       </div>
-      <div className="box">
+      <div className="box" ref={boxRef}>
         <div className="songDetail">
           <img
             // crossOrigin={"anonymous"}
@@ -188,6 +222,14 @@ export default function Player() {
             style={cursorstate}
             icon={isPlaying ? faPause : faPlay}
           />
+          {/* <StyledPlay
+            class={`play ${isPlaying ? "" : "paused"}`}
+            onClick={playpauseHandler}
+            style={cursorstate}
+          >
+            <span class="line1"></span>
+            <span class="line2"></span>
+          </StyledPlay> */}
           <FontAwesomeIcon
             onClick={() => skipsongHandler("skip-forward")}
             className="skip-forward"
@@ -205,11 +247,58 @@ export default function Player() {
     </StyledPlayer>
   );
 }
+const StyledPlay = styled.div`
+  position: relative;
+  width: 20px;
+  height: 10px;
+  overflow: hidden;
 
+  .line1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 10px;
+    background-color: #fff;
+    transition: 0.5s;
+    transition-delay: 0.2s;
+    transform-origin: 10% 60%;
+  }
+  .line2 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 2px;
+    height: 10px;
+    background-color: #fff;
+    transition: 0.5s;
+  }
+  .paused {
+    /* .line1 {
+      width: 100px;
+      height: 120px;
+      transform: skew(50deg, -40deg) translateX(-60%);
+    }
+    .line2 {
+      transform: translateX();
+      width: 0;
+    } */
+  }
+`;
 const StyledPlayer = styled(motion.div)`
   position: fixed;
   bottom: 0;
   z-index: 100;
+  width: 90%;
+  margin: 0.5rem;
+  border-radius: 10px;
+  transition: 0.5s;
+  overflow: hidden;
+  @media (max-width: 900px) {
+    margin: 0;
+    margin-bottom: 0.5rem;
+    width: 95%;
+  }
   .track {
     width: 100%;
     input {

@@ -30,16 +30,17 @@ body{
     justify-content: center;
     margin-bottom: 5rem;
     font-family: 'Padauk', sans-serif;
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
 }
-.artist{
-    font-family: 'Indie Flower', cursive;
-    letter-spacing: 1px;
+.artist, .secondary{
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 200;
+    letter-spacing: .5px;
   }
   .left{
       /* position: absolute; */
       left: 5.5rem;
-      width: calc(100% - 5.5rem);
+      /* width: 90%; */
   }
 `;
 export default GlobalStyles;

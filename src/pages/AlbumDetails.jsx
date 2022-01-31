@@ -53,7 +53,7 @@ const AlbumDetails = () => {
                   <div
                     className="songitem"
                     key={song.id}
-                    onClick={async() => {
+                    onClick={async () => {
                       const { data } = await axios.get(
                         `https://wavelet-backend.vercel.app/api/getdatauri?imgurl=${encodeURIComponent(
                           song.image
@@ -90,7 +90,7 @@ const AlbumDetails = () => {
 
 const StyledAlbumDetails = styled.div`
   position: relative;
-  width: 100%;
+  width: 90%;
   display: flex;
   .heading {
     font-size: 2.1rem;
@@ -118,8 +118,15 @@ const StyledAlbumDetails = styled.div`
     padding: 0.5rem;
     transition: 0.5s;
     cursor: pointer;
+    border-radius: 10px;
     &:hover {
-      background-color: #362119;
+      /* background-color: #362119; */
+      background: linear-gradient(
+        135deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.1) 20%,
+        rgba(231, 231, 231, 0.233) 100%
+      );
     }
   }
   @media (min-width: 900px) {

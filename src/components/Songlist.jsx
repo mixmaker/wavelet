@@ -5,8 +5,9 @@ import styled from "styled-components";
 //import context
 import MainContext from "../context/MainContext";
 //icons
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+// import FavoriteIcon from "@mui/icons-material/Favorite"; //will be added soon
+import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import axios from "axios";
 //api
 // import { getDetailsfromId } from "../api";
@@ -32,7 +33,8 @@ export default function Songlist({ element, index, hoverHandler }) {
     if (currentSong) {
       if (element.id === currentSong.id) {
         return {
-          backgroundColor: "#56297999",
+          background:
+            "linear-gradient(-45deg, transparent 0%,rgba(255, 255, 255, 0.1) 50%,rgba(231, 231, 231, 0.233) 100%)",
         };
       }
     }
@@ -74,14 +76,12 @@ export default function Songlist({ element, index, hoverHandler }) {
   const addtoPlaylistHandler = () => {
     let idArr;
     for (let i = 0; i < playlist.length; i++) {
-      idArr
-        ? (idArr = idArr.concat([playlist[i].id]))
-        : (idArr = [playlist[i].id]);
+      idArr ? (idArr = [...idArr, playlist[i].id]) : (idArr = [playlist[i].id]);
     }
     if (finder(idArr, element.id)) {
       alert("Song already in playlist");
     } else {
-      setPlaylist(playlist.concat(searchedData[index]));
+      setPlaylist([...playlist, searchedData[index]]);
     }
   };
 
@@ -89,10 +89,12 @@ export default function Songlist({ element, index, hoverHandler }) {
     <SongList className="songList">
       <motion.div
         id={`${element.id}`}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, transition: { duration: 0.5 } }}
         style={selectedStyle()}
         className="overlay"
       >
-        <div className="details" onClick={() => playSongHandler()}>
+        <div className="details" onClick={playSongHandler}>
           <motion.img
             variants={scaleVariant}
             initial="hidden"
@@ -125,11 +127,12 @@ export default function Songlist({ element, index, hoverHandler }) {
           initial="hidden"
           animate="visible"
         >
-          <FontAwesomeIcon
-            className="add"
-            icon={faPlus}
-            onClick={addtoPlaylistHandler}
-          />
+          <button className="favourite">
+            <FavoriteBorderIcon />
+          </button>
+          <button className="add">
+            <PlaylistAddIcon onClick={addtoPlaylistHandler} />
+          </button>
         </motion.div>
       </motion.div>
     </SongList>
@@ -138,7 +141,7 @@ export default function Songlist({ element, index, hoverHandler }) {
 
 const SongList = styled(motion.div)`
   position: relative;
-  margin: 1rem;
+  margin: 1rem 1.5rem;
   width: 100%;
   transition: 0.5s;
   overflow: hidden;
@@ -165,7 +168,7 @@ const SongList = styled(motion.div)`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-left: 0.5rem;
+    padding: 0.25rem 1rem;
     .details {
       transition: 0.5s;
       cursor: pointer;
@@ -179,21 +182,34 @@ const SongList = styled(motion.div)`
     }
     .icons {
       position: relative;
-      width: 10%;
-      padding: 0 2rem;
+      display: flex;
+      /* align-items: center;
+      justify-content: space-around; */
+      /* width: 15%; */
+      /* padding: 0 2rem; */
     }
     .pe {
       pointer-events: none;
     }
-    .add {
-      /* cursor: pointer; */
-      /* z-index: 5; */
+    .add,
+    .favourite {
+      cursor: pointer;
+      outline: none;
+      border: 1px solid transparent;
+      background: transparent;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       padding: 0.25rem;
-      font-size: 1.5rem;
-      border-radius: 5px;
-      transition: 0.5s;
+      margin: 0.15rem;
+      border-radius: 50%;
+      transition: 0.3s;
       &:hover {
-        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid #fff;
+      }
+      &:active {
+        background: rgba(255, 255, 255, 0.3);
       }
     }
     .info {

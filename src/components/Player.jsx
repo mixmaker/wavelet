@@ -1,17 +1,14 @@
 import React, { useRef, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPlay,
-  faPause,
-  faAngleLeft,
-  faAngleRight,
-} from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import { useContext } from "react";
 import MainContext from "../context/MainContext";
+import PauseIcon from "@mui/icons-material/Pause";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import KeyboardDoubleArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowLeftOutlined";
+import KeyboardDoubleArrowRightOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowRightOutlined";
 // import { makeMediaurl } from "../api";
-// import ColorThief from "colorthief";
+import { usePalette } from "react-palette";
 
 export default function Player() {
   //contexts
@@ -47,6 +44,7 @@ export default function Player() {
   const timeUpdateHandler = (e) => {
     const current = e.target.currentTime;
     const duration = e.target.duration;
+
     const anim = (current / duration) * 100;
     setSongInfo({
       ...songInfo,
@@ -63,6 +61,7 @@ export default function Player() {
       setCurrentSong(playlist[currentIndex + 1]);
     }
   };
+
   const timeFormatter = (time) => {
     if (!isNaN(time)) {
       return (
@@ -77,16 +76,46 @@ export default function Player() {
 
   const skipsongHandler = (direction) => {
     if (direction === "skip-forward") {
-      setCurrentSong(playlist[currentIndex + 1]);
-      setProgress(60);
-      setisPlaying(true);
-      setProgress(100);
+      setProgress(40);
+      if (playlist.length !== 1) {
+        if (currentIndex < playlist.length - 1) {
+          setCurrentSong(playlist[currentIndex + 1]);
+          setisPlaying(true);
+        }
+        if (currentIndex === playlist.length - 1) {
+          setCurrentSong(playlist[0]);
+          setisPlaying(true);
+        }
+        setProgress(100);
+      } else {
+        setCurrentSong(null);
+        setTimeout(() => {
+          setProgress(100);
+          setCurrentSong(playlist[0]);
+          setisPlaying(true);
+        }, 50);
+      }
     }
     if (direction === "skip-back") {
-      setCurrentSong(playlist[currentIndex - 1]);
-      setProgress(60);
-      setisPlaying(true);
-      setProgress(100);
+      setProgress(40);
+      if (playlist.length !== 1) {
+        if (currentIndex > 0) {
+          setCurrentSong(playlist[currentIndex - 1]);
+          setisPlaying(true);
+        }
+        if (currentIndex === 0) {
+          setCurrentSong(playlist[playlist.length - 1]);
+          setisPlaying(true);
+        }
+        setProgress(100);
+      } else {
+        setCurrentSong(null);
+        setTimeout(() => {
+          setProgress(100);
+          setCurrentSong(playlist[0]);
+          setisPlaying(true);
+        }, 50);
+      }
     }
   };
   //styles for input slider
@@ -111,6 +140,7 @@ export default function Player() {
         if (audioRef.current.volume === 0) {
           clearInterval(pauseInt);
           audioRef.current.pause();
+          audioRef.current.volume = 1;
           setCursorstate({ cursor: "pointer" });
         }
       }, 100);
@@ -153,21 +183,28 @@ export default function Player() {
     var currentScrollPos = window.pageYOffset;
     if (currentScrollPos > 100) {
       playerRef.current.style.cssText =
-        " bottom: -100px; margin: 0; width:100%;";
-      boxRef.current.style.visibility = "hidden";
+        " bottom: -100px; margin: 0; left:0; width:99vw;";
+      // boxRef.current.style.visibility = "hidden";
     } else {
       playerRef.current.style.cssText =
         " bottom: 0; margin: 0.5rem; width:90%;";
-      boxRef.current.style.visibility = "visible";
+      // boxRef.current.style.visibility = "visible";
     }
     prevScrollpos = currentScrollPos;
   };
+  const { data } = usePalette(currentSong.image);
+  // console.log(data);
+  if (data.darkMuted !== songInfo.color) {
+    setSongInfo({ ...songInfo, color: data.darkMuted });
+  }
   return (
     <StyledPlayer
-      initial={{ y: 100 }}
-      animate={{ y: 0, transition: { duration: 0.5 } }}
-      className="left"
+      initial={{ y: "120%" }}
+      animate={{ y: 0, transition: { duration: 0.5, ease: "easeIn" } }}
       ref={playerRef}
+      theme={{
+        color: songInfo.color,
+      }}
     >
       <div className="track">
         <input
@@ -186,13 +223,7 @@ export default function Player() {
             src={currentSong.image}
             ref={imgRef}
             alt="Songimg"
-            // onLoad={() => {
-            //   const colorThief = new ColorThief();
-            //   const img = imgRef.current;
-            //   console.log(img);
-            //   const result = colorThief.getColor(img, 25);
-            //   console.log(result);
-            // }}
+            // onLoad={getColorHandler}
           />
           <div className="text">
             <h2>{decodeHTML(currentSong.title)}</h2>
@@ -210,17 +241,34 @@ export default function Player() {
           <p>{timeFormatter(songInfo.duration)}</p>
         </div>
         <div className="play-control">
-          <FontAwesomeIcon
+          {/* <FontAwesomeIcon
             onClick={() => skipsongHandler("skip-back")}
             className="skip-back"
             icon={faAngleLeft}
+          /> */}
+          <KeyboardDoubleArrowLeftOutlinedIcon
+            onClick={() => skipsongHandler("skip-back")}
+            className="skip-back"
           />
-          <FontAwesomeIcon
+          {/* <FontAwesomeIcon
             className="play"
             onClick={playpauseHandler}
             style={cursorstate}
             icon={isPlaying ? faPause : faPlay}
-          />
+          /> */}
+          {isPlaying ? (
+            <PauseIcon
+              className="play"
+              onClick={playpauseHandler}
+              style={cursorstate}
+            />
+          ) : (
+            <PlayArrowIcon
+              className="play"
+              onClick={playpauseHandler}
+              style={cursorstate}
+            />
+          )}
           {/* <StyledPlay
             class={`play ${isPlaying ? "" : "paused"}`}
             onClick={playpauseHandler}
@@ -229,11 +277,15 @@ export default function Player() {
             <span class="line1"></span>
             <span class="line2"></span>
           </StyledPlay> */}
-          <FontAwesomeIcon
+          <KeyboardDoubleArrowRightOutlinedIcon
+            onClick={() => skipsongHandler("skip-forward")}
+            className="skip-forward"
+          />
+          {/* <FontAwesomeIcon
             onClick={() => skipsongHandler("skip-forward")}
             className="skip-forward"
             icon={faAngleRight}
-          />
+          /> */}
         </div>
         <audio
           ref={audioRef}
@@ -287,12 +339,24 @@ export default function Player() {
 const StyledPlayer = styled(motion.div)`
   position: fixed;
   bottom: 0;
+  left: 7rem;
   z-index: 100;
   width: 90%;
   margin: 0.5rem;
   border-radius: 10px;
   transition: 0.5s;
   overflow: hidden;
+  background: linear-gradient(
+    165deg,
+    ${(props) => props.theme.color} 0%,
+    #000 40%
+  );
+  /* Enable hardware acceleration to fix laggy transitions */
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
   @media (max-width: 900px) {
     margin: 0;
     margin-bottom: 0.5rem;
@@ -320,12 +384,12 @@ const StyledPlayer = styled(motion.div)`
   .box {
     position: relative;
     padding: 1rem 0;
-    background: linear-gradient(
+    /* background: linear-gradient(
       160deg,
-      #241e3a 7.94%,
+      ${(props) => props.theme.color} 7.94%,
       #181138 17.77%,
       #020112 49.48%
-    );
+    ); */
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -352,6 +416,10 @@ const StyledPlayer = styled(motion.div)`
       .skip-back,
       .skip-forward {
         cursor: pointer;
+        font-size: 1.5rem;
+      }
+      .play {
+        font-size: 1.7rem;
       }
     }
   }
@@ -374,15 +442,18 @@ const StyledPlayer = styled(motion.div)`
         outline: none;
       }
     }
-    input[type="range"]::-moz-range-thumb {
-      -webkit-appearance: none;
-      height: 1rem;
-      width: 1rem;
-    }
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
       height: 1rem;
       width: 1rem;
+    }
+    input[type="range"]::-moz-range-thumb {
+      -webkit-appearance: none;
+      height: 1rem;
+      width: 1rem;
+      background: transparent;
+      border-color: transparent;
+      color: transparent;
     }
     .animate-track {
       background: rgb(107, 107, 107);

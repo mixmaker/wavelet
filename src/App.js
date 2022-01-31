@@ -8,13 +8,13 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
 //components
 import Nav from "./components/Nav";
-import Intro from "./components/Intro";
-import Home from "./components/Home";
-import Search from "./components/Search";
-import Playlist from "./components/Playlist";
+import Intro from "./pages/Intro";
+import Home from "./pages/Home";
+import Search from "./pages/Search";
+import Playlist from "./pages/Playlist";
 import Player from "./components/Player";
-import Fsplayer from "./components/Fsplayer";
-import AlbumDetails from "./components/AlbumDetails";
+import Fsplayer from "./pages/Fsplayer";
+import AlbumDetails from "./pages/AlbumDetails";
 
 function App() {
   const {
@@ -26,10 +26,8 @@ function App() {
     setisPlaying,
   } = useContext(MainContext);
   useEffect(() => {
-    if (!currentSong) {
       setCurrentSong(playlist[0]);
       setisPlaying(true);
-    }
     // eslint-disable-next-line
   }, [playlist]);
   return (
@@ -44,7 +42,6 @@ function App() {
         />
         <Nav />
         <GlobalStyles />
-        <div className="bg"></div>
         <Routes>
           <Route exact path="/" element={<Intro />} />
           <Route exact path="/home" element={<Home />} />
@@ -63,8 +60,6 @@ function App() {
 
 const StyledApp = styled.div`
   display: flex;
-  .bg {
-  }
 `;
 
 export default App;

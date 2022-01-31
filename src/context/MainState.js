@@ -16,6 +16,7 @@ const MainState = (props) => {
     currentTime: "0:00",
     duration: "0:00",
     animationPercent: 0,
+    color: "",
   });
 
   //decode encoded HTML

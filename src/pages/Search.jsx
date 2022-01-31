@@ -1,13 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-import Songlist from "./Songlist";
+import Songlist from "../components/Songlist";
 import { useContext } from "react";
 import MainContext from "../context/MainContext";
 import { motion } from "framer-motion";
 import { getResponse } from "../api";
 import { searchResultsURL } from "../api/base";
+// import TextField from "@mui/material/TextField";
 
 const Search = () => {
+  document.title = "Wavelet | Search";
+
   //import contexts
   const { inputVar, setInputVar, searchedData, setSearchedData, setProgress } =
     useContext(MainContext);
@@ -17,18 +20,18 @@ const Search = () => {
   };
   const songInput = () => {
     setProgress(10);
-    const apiUrl = searchResultsURL(inputVar)
-      const run = async() => {
-        try {
-          const data =await getResponse(apiUrl);
-          setProgress(60)
-          setSearchedData(data.results);
-          setProgress(100)
-        } catch (error) {
-          alert(error);
-        }
-      };
-      run();
+    const apiUrl = searchResultsURL(inputVar);
+    const run = async () => {
+      try {
+        const data = await getResponse(apiUrl);
+        setProgress(60);
+        setSearchedData(data.results);
+        setProgress(100);
+      } catch (error) {
+        alert(error);
+      }
+    };
+    run();
     // getResponse(
     //   searchResultsURL(inputVar),
     //   (data) => {
@@ -68,7 +71,7 @@ const Search = () => {
   // };
 
   return (
-    <StyledSearch className="left">
+    <StyledSearch>
       <div className="inputdiv">
         <input
           type="text"
@@ -82,6 +85,7 @@ const Search = () => {
           <span className="contenttext">Search songs</span>
         </label>
       </div>
+      {/* <TextField id="standard-basic" label="Standard" variant="standard" /> */}
       <ul className="list">
         {searchedData &&
           searchedData.map((element, index) => {
@@ -97,9 +101,9 @@ const Search = () => {
 };
 
 const StyledSearch = styled(motion.div)`
-  margin: 1rem 5vw;
-  /* padding-bottom: 8rem; */
-  width: 75vw;
+  margin: 1rem 0 0 10%;
+  width: 70%;
+  /* overflow-x: hidden; */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -173,7 +177,6 @@ const StyledSearch = styled(motion.div)`
     position: relative;
     li {
       position: relative;
-      /* z-index: 5; */
       list-style: none;
     }
   }

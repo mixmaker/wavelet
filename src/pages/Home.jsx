@@ -8,6 +8,7 @@ import { getResponse } from "../api";
 import { Link } from "react-router-dom";
 
 const Home = () => {
+  document.title = "Wavelet | Home";
   const {
     homedata,
     setHomedata,
@@ -15,6 +16,7 @@ const Home = () => {
     setAlbumdata,
     setCurrentSong,
     setisPlaying,
+    decodeHTML,
   } = useContext(MainContext);
   const homeUrl = homeDataURL();
   useEffect(() => {
@@ -89,8 +91,8 @@ const Home = () => {
         <div className="newTrending">
           <h2 className="heading">New Trending</h2>
           <div className="fixed">
-            <div className="wrapper">
-              <div className="marker" ></div>
+            <div className="homewrapper">
+              <div className="marker"></div>
               {homedata &&
                 homedata.new_trending.map((element) => {
                   return (
@@ -110,8 +112,8 @@ const Home = () => {
                       >
                         <img src={element.image} alt="img" />
                         <div className="details">
-                          <h3 className="title">{element.title}</h3>
-                          <h4 className="type">{element.type}</h4>
+                          <h3 className="title">{decodeHTML(element.title)}</h3>
+                          <h4 className="type secondary">{element.type}</h4>
                         </div>
                       </div>
                     </Link>
@@ -125,7 +127,7 @@ const Home = () => {
         <div className="topPlaylists">
           <h2 className="heading">Top Playlists</h2>
           <div className="fixed">
-            <div className="wrapper">
+            <div className="homewrapper">
               {homedata &&
                 homedata.top_playlists.map((element) => {
                   return (
@@ -143,7 +145,7 @@ const Home = () => {
                       >
                         <img src={element.image} alt="img" />
                         <div className="details">
-                          <h3 className="title">{element.title}</h3>
+                          <h3 className="title">{decodeHTML(element.title)}</h3>
                         </div>
                       </div>
                     </Link>
@@ -157,7 +159,7 @@ const Home = () => {
         <div className="newAlbums">
           <h2 className="heading">New Albums</h2>
           <div className="fixed">
-            <div className="wrapper">
+            <div className="homewrapper">
               {homedata &&
                 homedata.new_albums.map((element) => {
                   return (
@@ -174,14 +176,14 @@ const Home = () => {
                         }}
                       >
                         <img
-                          className="pe"
+                          // className="pe"
                           src={element.image}
                           alt="img"
                           loading="lazy"
                         />
                         <div className="details">
-                          <h3 className="title pe">{element.title}</h3>
-                          <h4 className="type pe">{element.type}</h4>
+                          <h3 className="title">{decodeHTML(element.title)}</h3>
+                          <h4 className="type secondary">{element.type}</h4>
                         </div>
                       </div>
                     </Link>
@@ -198,15 +200,20 @@ const Home = () => {
 const StyledHome = styled.div`
   margin: 2rem;
   height: 100vh;
+  width: 90%;
   position: relative;
+  .home {
+    font-size: 2.5rem;
+  }
   a {
     text-decoration: none;
     color: white;
   }
   .loading {
     position: relative;
+    width: 50%;
     left: 40%;
-    top: 50%;
+    top: 40%;
     transform: translateX(-50%, -50%);
   }
   .newTrending,
@@ -254,12 +261,14 @@ const StyledHome = styled.div`
           rgba(255, 255, 255, 0) 100%
         );
       }
-      .wrapper {
+      .homewrapper {
         scrollbar-width: none; // firefox compatible
         padding: 0 2rem;
         position: relative;
         display: flex;
         overflow: auto;
+        overflow-y: hidden;
+        z-index: 5;
         white-space: nowrap;
         ::-webkit-scrollbar {
           //chrome and edge compatible
@@ -285,7 +294,7 @@ const StyledHome = styled.div`
       transition: 0.5s;
       &:hover {
         transform: scale(1.02);
-        background: rgba(70,74,87,1);
+        background: rgba(70, 74, 87, 1);
       }
       /* &::before {
         content: "";

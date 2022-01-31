@@ -33,6 +33,8 @@ const letterVariants = {
   },
 };
 const Home = () => {
+  document.title = "Wavelet";
+
   //import contexts
   const { setProgress } = useContext(MainContext);
   //set top-loading-bar progress to 100 when page is completely loaded
@@ -93,7 +95,6 @@ const StyledHome = styled(motion.div)`
   width: 100%;
   padding: 2rem;
   overflow: hidden;
-  z-index: 5;
   background: linear-gradient(
     118.91deg,
     #241e3a 7.94%,

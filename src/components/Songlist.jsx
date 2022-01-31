@@ -50,27 +50,10 @@ export default function Songlist({ element, index, hoverHandler }) {
   };
   const playSongHandler = async () => {
     setProgress(40);
-    const { data } = await axios.get(
-      `https://wavelet-backend.vercel.app/api/getdatauri?imgurl=${encodeURIComponent(
-        searchedData[index].image
-      )}`
-    );
-    const newSongdata = { ...searchedData[index], image: data.uri };
-    setCurrentSong(newSongdata);
-    // setCurrentSong(searchedData[index]);
+    setCurrentSong(searchedData[index]);
     setisPlaying(true);
-    setPlaylist([newSongdata]);
+    setPlaylist([searchedData[index]]);
     setProgress(100);
-    // setProgress(10);
-    // // getDetails(element.id).then((data) => {
-    // getDetailsfromId(element.id).then(({ data }) => {
-    //   // console.log(data[element.id]);
-    //   setProgress(60);
-    //   setCurrentSong(data[element.id]);
-    //   setPlaylist([data[element.id]]);
-    //   setisPlaying(true);
-    //   setProgress(100);
-    // });
   };
 
   const addtoPlaylistHandler = () => {

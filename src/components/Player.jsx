@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState , useEffect} from "react";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import { useContext } from "react";
@@ -7,7 +7,7 @@ import PauseIcon from "@mui/icons-material/Pause";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import KeyboardDoubleArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowLeftOutlined";
 import KeyboardDoubleArrowRightOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowRightOutlined";
-// import { makeMediaurl } from "../api";
+import axios from "axios";
 import { usePalette } from "react-palette";
 
 export default function Player() {
@@ -161,20 +161,21 @@ export default function Player() {
       }, 100);
     }
   };
-  // useEffect(() => {
-  //   const getEncodedUri = async (imgurl) => {
-  //     const { data } = await axios.get(
-  //       `https://wavelet-backend.vercel.app/api/getdatauri?imgurl=${encodeURIComponent(
-  //         imgurl
-  //       )}`
-  //     );
-  //     console.log(data.uri);
-  //     setCurrentSong({ ...currentSong, image: data.uri });
-  //   };
-  //   if (currentSong.image.split(":")[0] !== "data") {
-  //     getEncodedUri(currentSong.image);
-  //   }
-  // }, [currentSong]);
+  //get img uri b4 playing any song
+  useEffect(() => {
+    const getEncodedUri = async (imgurl) => {
+      const { data } = await axios.get(
+        `https://wavelet-backend.vercel.app/api/getdatauri?imgurl=${encodeURIComponent(
+          imgurl
+        )}`
+      );
+      setCurrentSong({ ...currentSong, image: data.uri });
+    };
+    if (currentSong.image.split(":")[0] !== "data") {
+      getEncodedUri(currentSong.image);
+    }
+  }, [currentSong, setCurrentSong]);
+
   const playerRef = useRef(null);
   const boxRef = useRef(null);
   // eslint-disable-next-line

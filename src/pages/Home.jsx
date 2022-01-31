@@ -1,11 +1,10 @@
 import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 import LazyLoad from "react-lazyload";
 //import context
 import MainContext from "../context/MainContext";
 //api
-import { albumURL, homeDataURL } from "../api/base";
+import { homeDataURL } from "../api/base";
 import { getResponse } from "../api";
 import HomeCard from "../components/HomeCard";
 //components
@@ -16,9 +15,6 @@ const Home = () => {
     homedata,
     setHomedata,
     setProgress,
-    setAlbumdata,
-    setCurrentSong,
-    setisPlaying,
   } = useContext(MainContext);
   const homeUrl = homeDataURL();
   useEffect(() => {

@@ -5,6 +5,7 @@ import { albumURL } from "../api/base";
 import { getResponse } from "../api";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
+import LazyLoad from "react-lazyload";
 
 const AlbumDetails = () => {
   const {
@@ -39,7 +40,9 @@ const AlbumDetails = () => {
       {albumdata && albumdata.id === locArr[3] && (
         <>
           <div className="image">
-            <img src={albumdata.image.replace("150x150", "500x500")} alt="" />
+            <LazyLoad offset={100}>
+              <img src={albumdata.image.replace("150x150", "500x500")} alt="" />
+            </LazyLoad>
           </div>
           <div className="main">
             <h1 className="heading">{albumdata.title}</h1>

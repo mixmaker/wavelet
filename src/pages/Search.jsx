@@ -6,6 +6,7 @@ import MainContext from "../context/MainContext";
 import { motion } from "framer-motion";
 import { getResponse } from "../api";
 import { searchResultsURL } from "../api/base";
+import LazyLoad from "react-lazyload";
 // import TextField from "@mui/material/TextField";
 
 const Search = () => {
@@ -90,9 +91,11 @@ const Search = () => {
         {searchedData &&
           searchedData.map((element, index) => {
             return (
-              <li key={element.id}>
-                <Songlist element={element} index={index} key={element.id} />
-              </li>
+              <LazyLoad offset={100}>
+                <li key={element.id}>
+                  <Songlist element={element} index={index} key={element.id} />
+                </li>
+              </LazyLoad>
             );
           })}
       </ul>

@@ -8,7 +8,6 @@ import MainContext from "../context/MainContext";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 // import FavoriteIcon from "@mui/icons-material/Favorite"; //will be added soon
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
-import axios from "axios";
 //api
 // import { getDetailsfromId } from "../api";
 

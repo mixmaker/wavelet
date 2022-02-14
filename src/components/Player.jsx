@@ -1,4 +1,4 @@
-import React, { useRef, useState , useEffect} from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import { useContext } from "react";
@@ -194,9 +194,11 @@ export default function Player() {
     prevScrollpos = currentScrollPos;
   };
   const { data } = usePalette(currentSong.image);
-  // console.log(data);
-  if (data.darkMuted !== songInfo.color) {
-    setSongInfo({ ...songInfo, color: data.darkMuted });
+  if (data.darkMuted !== songInfo.bgColor) {
+    setSongInfo({ ...songInfo, bgColor: data.darkMuted });
+  }
+  if (data.lightMuted !== songInfo.seekColor) {
+    setSongInfo({ ...songInfo, seekColor: data.lightMuted });
   }
   return (
     <StyledPlayer
@@ -204,7 +206,8 @@ export default function Player() {
       animate={{ y: 0, transition: { duration: 0.5, ease: "easeIn" } }}
       ref={playerRef}
       theme={{
-        color: songInfo.color,
+        bgColor: songInfo.bgColor,
+        seekColor: songInfo.seekColor,
       }}
     >
       <div className="track">
@@ -242,21 +245,10 @@ export default function Player() {
           <p>{timeFormatter(songInfo.duration)}</p>
         </div>
         <div className="play-control">
-          {/* <FontAwesomeIcon
-            onClick={() => skipsongHandler("skip-back")}
-            className="skip-back"
-            icon={faAngleLeft}
-          /> */}
           <KeyboardDoubleArrowLeftOutlinedIcon
             onClick={() => skipsongHandler("skip-back")}
             className="skip-back"
           />
-          {/* <FontAwesomeIcon
-            className="play"
-            onClick={playpauseHandler}
-            style={cursorstate}
-            icon={isPlaying ? faPause : faPlay}
-          /> */}
           {isPlaying ? (
             <PauseIcon
               className="play"
@@ -341,7 +333,7 @@ const StyledPlayer = styled(motion.div)`
   position: fixed;
   bottom: 0;
   left: 7rem;
-  z-index: 100;
+  z-index: 1000;
   width: 90%;
   margin: 0.5rem;
   border-radius: 10px;
@@ -349,7 +341,7 @@ const StyledPlayer = styled(motion.div)`
   overflow: hidden;
   background: linear-gradient(
     165deg,
-    ${(props) => props.theme.color} 0%,
+    ${(props) => props.theme.bgColor} 0%,
     #000 40%
   );
   /* Enable hardware acceleration to fix laggy transitions */
@@ -427,7 +419,8 @@ const StyledPlayer = styled(motion.div)`
   .track {
     width: 100%;
     height: 0.25rem;
-    background: #30e3ca;
+    /* background: #30e3ca; */
+    background: ${(props) => props.theme.seekColor};
     position: relative;
     overflow: hidden;
     cursor: pointer;

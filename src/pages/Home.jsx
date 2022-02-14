@@ -3,19 +3,21 @@ import styled from "styled-components";
 import LazyLoad from "react-lazyload";
 //import context
 import MainContext from "../context/MainContext";
+import { useLocation } from "react-router-dom";
+
 //api
 import { homeDataURL } from "../api/base";
 import { getResponse } from "../api";
 import HomeCard from "../components/HomeCard";
+import SkeletonCard from "../components/skeletons/SkeletonCard";
+import AlbumDetails from "./AlbumDetails";
+import { motion, AnimatePresence, AnimateSharedLayout } from "framer-motion";
 //components
 
 const Home = () => {
   document.title = "Wavelet | Home";
-  const {
-    homedata,
-    setHomedata,
-    setProgress,
-  } = useContext(MainContext);
+  const { homedata, setHomedata, setAlbumdata, setProgress } =
+    useContext(MainContext);
   const homeUrl = homeDataURL();
   useEffect(() => {
     const dataFetcher = async () => {
@@ -33,35 +35,46 @@ const Home = () => {
     // eslint-disable-next-line
   }, [homeUrl]);
 
+  const location = useLocation();
+  useEffect(() => {
+    if (location.pathname === "/home") {
+      setAlbumdata(undefined);
+    }
+  }, [location]);
+
+  const locArr = location.pathname.split("/");
+  if (locArr[3]) {
+    document.body.style.overflowY = "hidden";
+  } else {
+    document.body.style.overflowY = "scroll";
+  }
   return (
-    <StyledHome className="left">
-      <h1 className="home">Home</h1>
-      {!homedata && (
-        <div className="loading">
-          <h1>Loading, please wait...</h1>
-        </div>
-      )}
-      {homedata && (
+    <>
+      {locArr[3] && <AlbumDetails />}
+      <StyledHome className="left">
+        <h1 className="home">Home</h1>
         <div className="newTrending">
           <h2 className="heading">New Trending</h2>
           <LazyLoad offset={100} once>
             <div className="fixed">
               <div className="homewrapper">
+                {!homedata &&
+                  [1, 2, 3, 4, 5].map((n) => <SkeletonCard key={n} />)}
                 {homedata &&
-                  homedata.new_trending.map((element) => {
+                  homedata.new_trending.map((element, index) => {
                     return <HomeCard element={element} />;
                   })}
               </div>
             </div>
           </LazyLoad>
         </div>
-      )}
-      {homedata && (
         <div className="topPlaylists">
           <h2 className="heading">Top Playlists</h2>
           <LazyLoad offset={100} once>
             <div className="fixed">
               <div className="homewrapper">
+                {!homedata &&
+                  [1, 2, 3, 4, 5].map((n) => <SkeletonCard key={n} />)}
                 {homedata &&
                   homedata.top_playlists.map((element) => {
                     return <HomeCard element={element} />;
@@ -70,10 +83,17 @@ const Home = () => {
             </div>
           </LazyLoad>
         </div>
-      )}
-      {homedata && (
         <div className="newAlbums">
           <h2 className="heading">New Albums</h2>
+          {!homedata && (
+            <div className="fixed">
+              <div className="homewrapper">
+                {[1, 2, 3, 4, 5].map((n) => (
+                  <SkeletonCard key={n} />
+                ))}
+              </div>
+            </div>
+          )}
           <LazyLoad>
             <div className="fixed">
               <div className="homewrapper">
@@ -85,13 +105,13 @@ const Home = () => {
             </div>
           </LazyLoad>
         </div>
-      )}
-    </StyledHome>
+      </StyledHome>
+    </>
   );
 };
 
-const StyledHome = styled.div`
-  margin: 2rem;
+const StyledHome = styled(motion.div)`
+  padding: 2rem;
   height: 100vh;
   width: 90%;
   position: relative;
@@ -102,22 +122,15 @@ const StyledHome = styled.div`
     text-decoration: none;
     color: white;
   }
-  .loading {
-    position: relative;
-    width: 50%;
-    left: 40%;
-    top: 40%;
-    transform: translateX(-50%, -50%);
-  }
   .newTrending,
   .topPlaylists,
   .newAlbums {
-    margin: 4rem 0;
+    margin: 2rem 0 4rem 0;
     padding: 1rem;
     position: relative;
 
     .heading {
-      padding: 0 1rem;
+      padding: 0 0 0.25rem 1rem;
     }
     .fixed {
       position: relative;

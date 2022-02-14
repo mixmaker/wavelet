@@ -94,7 +94,6 @@ const StyledNav = styled.div`
   .nav {
     position: fixed;
     pointer-events: auto;
-    z-index: 1000;
     font-family: "Comfortaa", cursive;
     background: #1a1a1a97;
     /* background: linear-gradient(
@@ -150,10 +149,11 @@ const StyledNav = styled.div`
             display: flex;
             justify-content: center;
             align-items: center;
-            transform: translateX(80px) rotate(5deg);
-            /* opacity: 0; */
+            transform: translateX(40px);
+            letter-spacing: 1em;
             padding-left: 0.5rem;
-            transition: 0.5s;
+            transition: transform 0.4s, letter-spacing 0.3s;
+            /* transition-delay: letter-spacing 0.2s; */
             white-space: nowrap;
           }
         }
@@ -184,6 +184,10 @@ const StyledNav = styled.div`
     width: 10rem;
   }
   .expanded .menu-items a .navwrapper span {
-    transform: translateX(0) rotate(0deg);
+    transform: translateX(0);
+    letter-spacing: .1em;
+  }
+  .nav.expanded {
+    background: #0f0f0fda;
   }
 `;

@@ -1,9 +1,10 @@
 import axios from "axios";
 
-export const getResponse = (url) => {
-  return axios
-    .get(`https://wavelet-backend.vercel.app/api?q=${encodeURIComponent(url)}`)
-    .then((data) => data.data);
+export const getResponse = async (url) => {
+  const { data } = await axios.get(
+    `https://wavelet-backend.vercel.app/api?q=${encodeURIComponent(url)}`
+  );
+  return data;
 };
 
 export const makeMediaurl = (url) => {

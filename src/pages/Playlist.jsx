@@ -62,7 +62,7 @@ const Playlist = () => {
 
 const StyledPlaylist = styled.div`
   position: relative;
-  margin: 2rem 8%;
+  margin: 2rem;
   .main {
     display: flex;
     align-items: center;

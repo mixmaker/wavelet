@@ -21,6 +21,7 @@ export default function Songlist({ element, index, hoverHandler }) {
     searchedData,
     playlist,
     setPlaylist,
+    finder
   } = useContext(MainContext);
 
   const scaleVariant = {
@@ -38,15 +39,7 @@ export default function Songlist({ element, index, hoverHandler }) {
       }
     }
   };
-  const finder = (arr, item) => {
-    if (arr !== undefined) {
-      if (arr.find((element) => element === item)) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  };
+
   const playSongHandler = async () => {
     setProgress(40);
     setCurrentSong(searchedData[index]);

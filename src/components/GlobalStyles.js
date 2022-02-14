@@ -19,10 +19,11 @@ const GlobalStyles = createGlobalStyle`
 ::-webkit-scrollbar-thumb:hover {
   background: #a5533e;
 }
+html{
+  scrollbar-color: #ee6c4d #f1f1f1; // compatible with firefox
+  scrollbar-width: thin;
+}
 body{
-    //#1f1919
-    scrollbar-width: thin;
-    scrollbar-color: #ee6c4d #f1f1f1;
     background-color: rgb(19, 16, 16);
     color: #fff;
     display: flex;
@@ -38,9 +39,7 @@ body{
     letter-spacing: .5px;
   }
   .left{
-      /* position: absolute; */
-      left: 5.5rem;
-      /* width: 90%; */
+      margin-left: 7rem;
   }
 `;
 export default GlobalStyles;

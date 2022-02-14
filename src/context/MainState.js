@@ -16,7 +16,8 @@ const MainState = (props) => {
     currentTime: "0:00",
     duration: "0:00",
     animationPercent: 0,
-    color: "",
+    bgColor: "",
+    seekColor:""
   });
 
   //decode encoded HTML
@@ -43,7 +44,15 @@ const MainState = (props) => {
 
     return decrypted.toString(CryptoJS.enc.Utf8);
   }
-
+  const finder = (arr, item) => {
+    if (arr !== undefined) {
+      if (arr.find((element) => element === item)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
   return (
     <MainContext.Provider
       value={{
@@ -69,6 +78,7 @@ const MainState = (props) => {
         setSongInfo,
         decodeHTML,
         decryptByDES,
+        finder
       }}
     >
       {props.children}

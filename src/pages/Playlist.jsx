@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
-import MainContext from "../context/MainContext";
+import useAppContext from "../context/useAppContext";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import PlaylistRemoveIcon from "@mui/icons-material/PlaylistRemove";
 
@@ -8,8 +8,7 @@ const Playlist = () => {
   document.title = "Wavelet | Playlists";
 
   //import contexts
-  const { playlist, setPlaylist, decodeHTML, currentSong } =
-    useContext(MainContext);
+  const { playlist, setPlaylist, decodeHTML, currentSong } = useAppContext();
   const removeSongfromPlaylistHandler = (id) => {
     const newPlaylist = playlist.filter((element, index) => {
       return id !== index;
@@ -63,13 +62,15 @@ const Playlist = () => {
 const StyledPlaylist = styled.div`
   position: relative;
   margin: 2rem;
+  margin-left: 7rem;
+  padding: 0 2rem;
   .main {
     display: flex;
     align-items: center;
     width: 500px;
     margin: 1rem 0;
-    &:hover{
-      .playlistIcons{
+    &:hover {
+      .playlistIcons {
         opacity: 1;
       }
     }
@@ -103,7 +104,7 @@ const StyledPlaylist = styled.div`
       display: flex;
       align-items: center;
       opacity: 0;
-      transition: .2s;
+      transition: 0.2s;
       button {
         background: transparent;
         cursor: pointer;

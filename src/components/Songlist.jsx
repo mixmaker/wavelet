@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 //styles and animations
 import { motion } from "framer-motion";
 import styled from "styled-components";
 //import context
-import MainContext from "../context/MainContext";
+import useAppContext from "../context/useAppContext";
 //icons
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 // import FavoriteIcon from "@mui/icons-material/Favorite"; //will be added soon
@@ -22,7 +22,7 @@ export default function Songlist({ element, index, hoverHandler }) {
     playlist,
     setPlaylist,
     finder
-  } = useContext(MainContext);
+  } = useAppContext();
 
   const scaleVariant = {
     hidden: { scale: 0 },

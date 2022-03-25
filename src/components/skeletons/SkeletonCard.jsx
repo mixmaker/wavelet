@@ -12,6 +12,7 @@ const SkeletonCard = () => {
         background: "#444",
         margin: "0 1rem",
         padding: "1rem 1rem .75rem 1rem",
+        borderRadius: "5px",
       }}
     >
       <div className="skeleton-card">

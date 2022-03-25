@@ -7,11 +7,11 @@ import PlaylistPlayIcon from "@mui/icons-material/PlaylistPlay";
 import AudiotrackIcon from "@mui/icons-material/Audiotrack";
 import avatar from "../images/avatar.svg";
 import { useContext } from "react";
-import MainContext from "../context/MainContext";
+import useAppContext from "../context/useAppContext";
 // import { Badge } from "@mui/material";
 
 export default function Nav() {
-  const { setProgress } = useContext(MainContext);
+  const { setProgress } = useAppContext();
   const pageloadingHandler = () => {
     setProgress(40);
     setTimeout(() => {
@@ -85,7 +85,7 @@ export default function Nav() {
 }
 
 const StyledNav = styled.div`
-  position: absolute;
+  position: fixed;
   z-index: 999;
   pointer-events: none;
   transition: 0.5s;

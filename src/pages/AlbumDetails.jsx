@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import MainContext from "../context/MainContext";
+import useAppContext from "../context/useAppContext";
 import { albumURL } from "../api/base";
 import { getResponse } from "../api";
 import axios from "axios";
@@ -21,8 +21,8 @@ const AlbumDetails = () => {
     decodeHTML,
     finder,
     setisPlaying,
-  } = useContext(MainContext);
-  
+  } = useAppContext();
+
   const navigate = useNavigate();
   const exitAlbumDetailHandler = (e) => {
     const element = e.target;
@@ -48,54 +48,52 @@ const AlbumDetails = () => {
       onClick={exitAlbumDetailHandler}
       className="albumDetail"
     >
-        <div className="content">
-          <motion.div className="image">
-            <LazyLoad offset={100}>
-              <img src={albumdata.image} alt="" />
-            </LazyLoad>
-          </motion.div>
-          <div className="main">
-            <h1 className="heading">{albumdata.title}</h1>
-            <h3 className="type">{albumdata.type}</h3>
-            <button onClick={() => setPlaylist(albumdata.list)}>
-              Play all
-            </button>
-            <div className="items">
-              {!albumdata.list &&
-                [1, 2, 3, 4, 5].map((n) => <SkeletonListitem key={n} />)}
-              {albumdata.list &&
-                albumdata.list.map((song) => {
-                  return (
-                    <div className="songitem" key={song.id}>
-                      <div
-                        className="songItemDetails"
-                        onClick={() => {
-                          setCurrentSong(song);
-                          setisPlaying(true);
-                          setPlaylist([song]);
-                        }}
-                      >
-                        <img src={song.image} alt={song.title} />
-                        <div className="songItemText">
-                          <h3>{decodeHTML(song.title)}</h3>
-                          <h4 className="artist">
-                            {song.more_info.artistMap.primary_artists.map(
-                              (element) => element.name + ", "
-                            )}
-                          </h4>
-                        </div>
-                      </div>
-                      <div className="albumIcons">
-                        <PlaylistAddIcon
-                          onClick={() => addtoPlaylistHandler(song)}
-                        />
+      <div className="content">
+        <motion.div className="image">
+          <LazyLoad offset={100}>
+            <img src={albumdata.image} alt="" />
+          </LazyLoad>
+        </motion.div>
+        <div className="main">
+          <h1 className="heading">{albumdata.title}</h1>
+          <h3 className="type">{albumdata.type}</h3>
+          <button onClick={() => setPlaylist(albumdata.list)}>Play all</button>
+          <div className="items">
+            {!albumdata.list &&
+              [1, 2, 3, 4, 5].map((n) => <SkeletonListitem key={n} />)}
+            {albumdata.list &&
+              albumdata.list.map((song) => {
+                return (
+                  <div className="songitem" key={song.id}>
+                    <div
+                      className="songItemDetails"
+                      onClick={() => {
+                        setCurrentSong(song);
+                        setisPlaying(true);
+                        setPlaylist([song]);
+                      }}
+                    >
+                      <img src={song.image} alt={song.title} />
+                      <div className="songItemText">
+                        <h3>{decodeHTML(song.title)}</h3>
+                        <h4 className="artist">
+                          {song.more_info.artistMap.primary_artists
+                            .map(({ name }) => decodeHTML(name))
+                            .join(", ")}
+                        </h4>
                       </div>
                     </div>
-                  );
-                })}
-            </div>
+                    <div className="albumIcons">
+                      <PlaylistAddIcon
+                        onClick={() => addtoPlaylistHandler(song)}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
           </div>
         </div>
+      </div>
     </StyledAlbumDetails>
   );
 };
@@ -173,8 +171,8 @@ const StyledAlbumDetails = styled(motion.div)`
           display: flex;
           width: 100%;
           border-radius: 10px;
-          margin-bottom: 1.5rem;
-          padding: 0.5rem 1rem;
+          margin-bottom: 1rem;
+          padding: 0.75rem;
           justify-content: space-between;
           &:hover {
             background: linear-gradient(
@@ -190,7 +188,7 @@ const StyledAlbumDetails = styled(motion.div)`
             img {
               height: 70px;
               margin-right: 1rem;
-              border-radius: 7px;
+              border-radius: 14px;
             }
           }
           .albumIcons {

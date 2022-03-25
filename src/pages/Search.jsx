@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Songlist from "../components/Songlist";
-import { useContext } from "react";
-import MainContext from "../context/MainContext";
+import useAppContext from "../context/useAppContext";
 import { motion } from "framer-motion";
 import { getResponse } from "../api";
 import { searchResultsURL } from "../api/base";
@@ -14,7 +13,7 @@ const Search = () => {
 
   //import contexts
   const { inputVar, setInputVar, searchedData, setSearchedData, setProgress } =
-    useContext(MainContext);
+    useAppContext();
 
   const getInput = (e) => {
     setInputVar(e.target.value);

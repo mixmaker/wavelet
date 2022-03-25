@@ -1,8 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import styled from "styled-components";
-import { useContext } from "react";
-import MainContext from "../context/MainContext";
+import useAppContext from "../context/useAppContext";
 import PauseIcon from "@mui/icons-material/Pause";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import KeyboardDoubleArrowLeftOutlinedIcon from "@mui/icons-material/KeyboardDoubleArrowLeftOutlined";
@@ -23,7 +22,7 @@ export default function Player() {
     songInfo,
     setSongInfo,
     decryptByDES,
-  } = useContext(MainContext);
+  } = useAppContext();
 
   //refs
   const audioRef = useRef(null);
@@ -178,18 +177,16 @@ export default function Player() {
 
   const playerRef = useRef(null);
   const boxRef = useRef(null);
-  // eslint-disable-next-line
+
   var prevScrollpos = window.pageYOffset;
   window.onscroll = function () {
     var currentScrollPos = window.pageYOffset;
     if (currentScrollPos > 100) {
       playerRef.current.style.cssText =
         " bottom: -100px; margin: 0; left:0; width:99vw;";
-      // boxRef.current.style.visibility = "hidden";
     } else {
       playerRef.current.style.cssText =
         " bottom: 0; margin: 0.5rem; width:90%;";
-      // boxRef.current.style.visibility = "visible";
     }
     prevScrollpos = currentScrollPos;
   };
@@ -339,17 +336,19 @@ const StyledPlayer = styled(motion.div)`
   border-radius: 10px;
   transition: 0.5s;
   overflow: hidden;
+  //fallback if couldn't extract album art color or unavailable
+  background-color: rgb(19, 16, 16) !important;
   background: linear-gradient(
     165deg,
     ${(props) => props.theme.bgColor} 0%,
     #000 40%
   );
   /* Enable hardware acceleration to fix laggy transitions */
-  -webkit-transform: translateZ(0);
+  /* -webkit-transform: translateZ(0);
   -moz-transform: translateZ(0);
   -ms-transform: translateZ(0);
   -o-transform: translateZ(0);
-  transform: translateZ(0);
+  transform: translateZ(0); */
   @media (max-width: 900px) {
     margin: 0;
     margin-bottom: 0.5rem;

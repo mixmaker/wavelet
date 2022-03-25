@@ -1,8 +1,8 @@
-import MainContext from "./MainContext";
+import { MainContext } from "./useAppContext";
 import { useState } from "react";
 var CryptoJS = require("crypto-js");
 
-const MainState = (props) => {
+const MainState = ({ children }) => {
   const [homedata, setHomedata] = useState();
   const [albumdata, setAlbumdata] = useState();
   const [topSearches, setTopSearches] = useState();
@@ -17,7 +17,7 @@ const MainState = (props) => {
     duration: "0:00",
     animationPercent: 0,
     bgColor: "",
-    seekColor:""
+    seekColor: "",
   });
 
   //decode encoded HTML
@@ -78,10 +78,10 @@ const MainState = (props) => {
         setSongInfo,
         decodeHTML,
         decryptByDES,
-        finder
+        finder,
       }}
     >
-      {props.children}
+      {children}
     </MainContext.Provider>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import LazyLoad from "react-lazyload";
-import MainContext from "../context/MainContext";
+import useAppContext from "../context/useAppContext";
 //api
 import { albumURL } from "../api/base";
 import { getResponse } from "../api";
@@ -15,22 +15,21 @@ const HomeCard = ({ element }) => {
     setCurrentSong,
     setProgress,
     decodeHTML,
-  } = useContext(MainContext);
+  } = useAppContext();
 
   const getAlbumdata = async (type, id) => {
     const albumUrl = albumURL(type, id);
     const data = await getResponse(albumUrl);
-    console.log(data);
-    if (type === "album" || "playlist") {
+    if (type === "song") {
+      setCurrentSong(data.songs[0]);
+      setisPlaying(true);
+    }
+    if (type === "album" || type === "playlist") {
       setAlbumdata({
         ...albumdata,
         ...data,
         image: data.image.replace("150x150", "500x500"),
       });
-    }
-    if (type === "song") {
-      setCurrentSong(data.songs[0]);
-      setisPlaying(true);
     }
   };
   const navigate2 = useNavigate();
@@ -40,13 +39,15 @@ const HomeCard = ({ element }) => {
       <div
         className="card"
         onClick={() => {
-          navigate2("/home/" + element.type + "/" + element.id);
-          setProgress(40);
-          setAlbumdata({
-            title: element.title,
-            type: element.type,
-            image: element.image,
-          });
+          if (element.type !== "song") {
+            navigate2("/home/" + element.type + "/" + element.id);
+            setProgress(40);
+            setAlbumdata({
+              title: element.title,
+              type: element.type,
+              image: element.image,
+            });
+          }
           getAlbumdata(element.type, element.id);
           setProgress(100);
         }}
@@ -105,7 +106,7 @@ const StylesHomeCard = styled.div`
     &:hover:before {
       border-width: 15px;
     }
-    
+
     img {
       height: 200px;
       object-fit: fill;

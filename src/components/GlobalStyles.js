@@ -29,7 +29,6 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-bottom: 5rem;
     font-family: 'Padauk', sans-serif;
     /* overflow-x: hidden; */
 }

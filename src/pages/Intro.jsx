@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from "react";
-import MainContext from "../context/MainContext";
+import useAppContext from "../context/useAppContext";
 import styled from "styled-components";
 import bg from "../images/bg.png";
 import { Link } from "react-router-dom";
@@ -36,7 +36,7 @@ const Home = () => {
   document.title = "Wavelet";
 
   //import contexts
-  const { setProgress } = useContext(MainContext);
+  const { setProgress } = useAppContext();
   //set top-loading-bar progress to 100 when page is completely loaded
   useEffect(() => {
     setProgress(100);

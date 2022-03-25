@@ -8,8 +8,8 @@ const SkeletonListitem = () => {
         background: "#1e1e1e",
         display: "flex",
         justifyContent: "space-between",
-        padding: "0.5rem 1rem",
-        marginBottom: "1.5rem",
+        padding: "0.75rem",
+        marginBottom: "1rem",
         width: "100%",
         borderRadius: "10px",
       }}
@@ -24,7 +24,7 @@ const SkeletonListitem = () => {
             marginRight: "1rem",
             flexShrink: 0,
             background: "#3b3b3b",
-            borderRadius: "7px",
+            borderRadius: "14px",
           }}
         />
         <div style={{ width: "80%", marginTop: ".25rem" }}>

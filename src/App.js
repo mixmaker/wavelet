@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import GlobalStyles from "./components/GlobalStyles";
 import LoadingBar from "react-top-loading-bar";
-import MainContext from "./context/MainContext";
+import useAppContext from "./context/useAppContext";
 import styled from "styled-components";
 //react router
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -24,10 +24,12 @@ function App() {
     playlist,
     setCurrentSong,
     setisPlaying,
-  } = useContext(MainContext);
+  } = useAppContext();
   useEffect(() => {
+    if (!currentSong) {
       setCurrentSong(playlist[0]);
       setisPlaying(true);
+    }
     // eslint-disable-next-line
   }, [playlist]);
   return (

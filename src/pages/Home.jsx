@@ -1,8 +1,8 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import LazyLoad from "react-lazyload";
 //import context
-import MainContext from "../context/MainContext";
+import useAppContext from "../context/useAppContext";
 import { useLocation } from "react-router-dom";
 
 //api
@@ -16,8 +16,7 @@ import { motion, AnimatePresence, AnimateSharedLayout } from "framer-motion";
 
 const Home = () => {
   document.title = "Wavelet | Home";
-  const { homedata, setHomedata, setAlbumdata, setProgress } =
-    useContext(MainContext);
+  const { homedata, setHomedata, setAlbumdata, setProgress } = useAppContext();
   const homeUrl = homeDataURL();
   useEffect(() => {
     const dataFetcher = async () => {
@@ -112,7 +111,7 @@ const Home = () => {
 
 const StyledHome = styled(motion.div)`
   padding: 2rem;
-  height: 100vh;
+  height: 100%;
   width: 90%;
   position: relative;
   .home {
@@ -128,7 +127,7 @@ const StyledHome = styled(motion.div)`
     margin: 2rem 0 4rem 0;
     padding: 1rem;
     position: relative;
-
+    width: 100%;
     .heading {
       padding: 0 0 0.25rem 1rem;
     }

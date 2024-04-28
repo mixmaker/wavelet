@@ -5,7 +5,7 @@ const SkeletonListitem = () => {
   return (
     <div
       style={{
-        background: "#1e1e1e",
+        // background: "#1e1e1e",
         display: "flex",
         justifyContent: "space-between",
         padding: "0.75rem",

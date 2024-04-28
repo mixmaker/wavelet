@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import styled from "styled-components";
+// import styled from "styled-components";
 import useAppContext from "../context/useAppContext";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import PlaylistRemoveIcon from "@mui/icons-material/PlaylistRemove";
@@ -59,7 +59,7 @@ const Playlist = () => {
   );
 };
 
-const StyledPlaylist = styled.div`
+const StyledPlaylist = `
   position: relative;
   margin: 2rem;
   margin-left: 7rem;

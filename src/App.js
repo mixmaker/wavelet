@@ -1,20 +1,20 @@
-import React, { useContext } from "react";
-import GlobalStyles from "./components/GlobalStyles";
+import React from "react";
 import LoadingBar from "react-top-loading-bar";
 import useAppContext from "./context/useAppContext";
-import styled from "styled-components";
 //react router
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { useEffect } from "react";
 //components
-import Nav from "./components/Nav";
-import Intro from "./pages/Intro";
+import Onboarding from "./pages/Onboarding";
 import Home from "./pages/Home";
 import Search from "./pages/Search";
 import Playlist from "./pages/Playlist";
 import Player from "./components/Player";
-import Fsplayer from "./pages/Fsplayer";
 import AlbumDetails from "./pages/AlbumDetails";
+import "./globals.css";
+import Applayout from "./pages/Applayout";
+import Albums from "./pages/Albums";
+import Artists from "./pages/Artists";
 
 function App() {
   const {
@@ -34,7 +34,7 @@ function App() {
   }, [playlist]);
   return (
     <Router>
-      <StyledApp className="App">
+      <div className="App flex min-h-screen antialiased grainy">
         <LoadingBar
           color="#EE6C4D"
           height={3}
@@ -42,26 +42,23 @@ function App() {
           progress={progress}
           onLoaderFinished={() => setProgress(0)}
         />
-        <Nav />
-        <GlobalStyles />
         <Routes>
-          <Route exact path="/" element={<Intro />} />
-          <Route exact path="/home" element={<Home />} />
-          <Route exact path="/home/album/:id" element={<Home />} />
-          <Route exact path="/home/song/:id" element={<Home />} />
-          <Route exact path="/home/playlist/:id" element={<Home />} />
-          <Route exact path="/search" element={<Search />} />
-          <Route exact path="/playlists" element={<Playlist />} />
-          <Route exact path="/player" element={<Fsplayer />} />
+          <Route exact path="/" element={<Onboarding />} />
+          <Route element={<Applayout />}>
+            <Route exact path="/home" element={<Home />} />
+            <Route exact path="/album/:id" element={<AlbumDetails />} />
+            <Route exact path="/song/:id" element={<AlbumDetails />} />
+            <Route exact path="/playlist/:id" element={<AlbumDetails />} />
+            <Route exact path="/radio_station/:id" element={<AlbumDetails />} />
+            <Route exact path="/search" element={<Search />} />
+            <Route exact path="/albums" element={<Albums />} />
+            <Route exact path="/artists" element={<Artists />} />
+          </Route>
         </Routes>
         {currentSong && <Player />}
-      </StyledApp>
+      </div>
     </Router>
   );
 }
-
-const StyledApp = styled.div`
-  display: flex;
-`;
 
 export default App;

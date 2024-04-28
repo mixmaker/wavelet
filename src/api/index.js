@@ -1,9 +1,13 @@
 import axios from "axios";
 
 export const getResponse = async (url) => {
-  const { data } = await axios.get(
-    `https://wavelet-backend.vercel.app/api?q=${encodeURIComponent(url)}`
-  );
+  const { data } = await axios.get("https://wavelet-backend.vercel.app/api", {
+    headers: {
+      url,
+    },
+  });
+  // console.log(url);
+  // console.log(data);
   return data;
 };
 

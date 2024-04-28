@@ -1,13 +1,18 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import React from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App";
 import MainState from "./context/MainState";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-ReactDOM.render(
+const queryClient = new QueryClient();
+
+const root = createRoot(document.getElementById("root"));
+root.render(
   <React.StrictMode>
     <MainState>
-    <App />
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
     </MainState>
-  </React.StrictMode>,
-  document.getElementById('root')
+  </React.StrictMode>
 );

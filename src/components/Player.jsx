@@ -2,10 +2,12 @@ import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import useAppContext from "../context/useAppContext";
 import axios from "axios";
-import { TbPlayerTrackNextFilled } from "react-icons/tb";
-import { TbPlayerTrackPrevFilled } from "react-icons/tb";
-import { TbPlayerPlayFilled } from "react-icons/tb";
-import { TbPlayerPauseFilled } from "react-icons/tb";
+import {
+  TbPlayerTrackNextFilled,
+  TbPlayerTrackPrevFilled,
+  TbPlayerPlayFilled,
+  TbPlayerPauseFilled,
+} from "react-icons/tb";
 import { usePalette } from "react-palette";
 import { decryptByDES } from "../api/base";
 

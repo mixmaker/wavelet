@@ -19,6 +19,7 @@
     "clsx": "^2.1.0",
     "crypto-js": "3.3.0",
     "framer-motion": "^11.0.28",
+    "fs": "^0.0.1-security",
     "lucide-react": "^0.368.0",
     "mini-svg-data-uri": "^1.4.4",
     "postcss": "^8.4.38",
@@ -29,6 +30,7 @@
     "react-router-dom": "^6.2.1",
     "react-scripts": "5.0.1",
     "react-top-loading-bar": "^2.3.1",
+    "sitemap": "^7.1.1",
     "tailwind-merge": "^2.2.2",
     "tailwindcss": "^3.4.3",
     "tailwindcss-animate": "^1.0.7",
@@ -36,7 +38,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "npm run ./src/generate-sitemap && react-scripts build",
+    "build": "node ./src/generate-sitemap && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

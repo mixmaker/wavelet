@@ -191,7 +191,7 @@ export default function Player() {
   return (
     <motion.div
       initial={{ y: "120%" }}
-      animate={{ y: 0, transition: { duration: 0.4, ease: "easeInOut" } }}
+      animate={{ y: 0, transition: { duration: 0.5, ease: "backInOut" } }}
       // ref={playerRef}
       theme={{
         bgColor: songInfo.bgColor,
@@ -206,7 +206,7 @@ export default function Player() {
           opacity: 0.3,
         }}
       ></div>
-      <div className="relative p-4 duration-300 group justify-start flex h-64 w-52 backdrop-blur-md transition-all hover:w-96 hover:h-52">
+      <div className="relative p-4 duration-500 group justify-start flex h-64 w-52 backdrop-blur-md transition-all hover:w-96 hover:h-52">
         <div className="flex flex-col justify-start w-44 transition-all">
           <img
             src={currentSong.image}
@@ -214,7 +214,7 @@ export default function Player() {
             className="h-44 w-44 rounded-xl transition-all"
             // onLoad={getColorHandler}
           />
-          <div className="mt-2 group-hover:translate-y-32 group-hover:opacity-0 transition-all">
+          <div className="mt-2 duration-500 group-hover:translate-y-32 group-hover:opacity-0 transition-all">
             <h2 className="text-base line-clamp-1 leading-5">
               {decodeHTML(currentSong.title)}
             </h2>
@@ -232,7 +232,7 @@ export default function Player() {
             <h2 className="text-base line-clamp-2 leading-5">
               {decodeHTML(currentSong.title)}
             </h2>
-            <h3 className="artist text-sm text-zinc-400 line-clamp-2">
+            <h3 className="artist text-sm text-zinc-400 line-clamp-2 leading-4 mt-1">
               {decodeHTML(
                 currentSong.more_info.artistMap.primary_artists.map(
                   (element) => " " + element.name

@@ -15,20 +15,46 @@ import "./globals.css";
 import Applayout from "./pages/Applayout";
 import Albums from "./pages/Albums";
 import Artists from "./pages/Artists";
+import { useCookies } from "react-cookie";
 
 function App() {
+  const [cookies, setCookie, removeCookie] = useCookies(["playlist"]);
+
   const {
     currentSong,
     progress,
     setProgress,
     playlist,
+    setPlaylist,
     setCurrentSong,
     setisPlaying,
   } = useAppContext();
+
+  // Load playlist from cookies when component mounts
+  useEffect(() => {
+    let savedPlaylist = [];
+    try {
+      savedPlaylist = cookies.playlist ? JSON.parse(cookies.playlist) : [];
+    } catch (error) {
+      console.error("Error parsing playlist cookie:", error);
+    }
+    setPlaylist(savedPlaylist);
+    if (savedPlaylist.length > 0) {
+      setCurrentSong(savedPlaylist[0]);
+      setisPlaying(true);
+    }
+  }, []);
+
   useEffect(() => {
     if (!currentSong) {
       setCurrentSong(playlist[0]);
       setisPlaying(true);
+      setCookie("playlist", JSON.stringify(playlist), {
+        options: {
+          path: "/",
+          maxAge: 60 * 60 * 24 * 7, // Expires in 7 days
+        },
+      });
     }
     // eslint-disable-next-line
   }, [playlist]);

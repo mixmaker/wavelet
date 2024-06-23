@@ -3,10 +3,8 @@ import useAppContext from "../context/useAppContext";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import SkeletonListitem from "../components/skeletons/SkeletonListitem";
 import { IoIosArrowBack } from "react-icons/io";
-import { TbPlaylistAdd } from "react-icons/tb";
 import { Button } from "../components/ui/button";
 import { FaPlay } from "react-icons/fa6";
-import { RiLoader5Fill } from "react-icons/ri";
 import { useGetAlbumData } from "../api/queries";
 import { cn } from "../cn";
 import SongListItem from "../components/SongListItem";
@@ -26,7 +24,6 @@ const AlbumDetails = () => {
   } = useAppContext();
 
   const { id } = useParams();
-  console.log(id);
   const navigate = useNavigate();
   const location = useLocation();
   const type = location.pathname.split("/")[1];
@@ -57,6 +54,9 @@ const AlbumDetails = () => {
     <div className="p-6">
       {isVisible && (
         <Button
+          as={motion.div}
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
           className="fixed bottom-2 right-20 rounded-full h-12 w-12 p-2"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
         >
